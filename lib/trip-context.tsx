@@ -14,6 +14,9 @@ interface TripContextType {
   notes: Note[]
   loading: boolean
   isGuest: boolean
+  savedSpots: string[]
+  setSavedSpots: (spots: string[]) => void
+  savedCount: number
   refreshTrip: () => Promise<void>
   refreshDays: () => Promise<void>
   refreshBudget: () => Promise<void>
@@ -35,6 +38,9 @@ export function TripProvider({ children }: { children: ReactNode }) {
   const [notes, setNotes] = useState<Note[]>([])
   const [loading, setLoading] = useState(true)
   const [isGuest, setIsGuest] = useState(false)
+  const [savedSpots, setSavedSpots] = useState<string[]>([])
+  
+  const savedCount = savedSpots.length
 
   const supabase = createClient()
 
@@ -203,6 +209,9 @@ export function TripProvider({ children }: { children: ReactNode }) {
       notes,
       loading,
       isGuest,
+      savedSpots,
+      setSavedSpots,
+      savedCount,
       refreshTrip,
       refreshDays,
       refreshBudget,

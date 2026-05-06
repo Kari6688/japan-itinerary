@@ -1,10 +1,16 @@
-import { MapPage } from '@/components/map/map-page'
+'use client'
 
-export const metadata = {
-  title: 'Trip Map - Japan 2026',
-  description: 'View all your activities and spots on an interactive map',
-}
+import { TripProvider } from '@/lib/trip-context'
+import { Nav } from '@/components/nav'
+import { MapView } from '@/components/map/map-view'
 
-export default function Map() {
-  return <MapPage />
+export default function MapPage() {
+  return (
+    <TripProvider>
+      <div className="min-h-screen bg-background">
+        <Nav />
+        <MapView />
+      </div>
+    </TripProvider>
+  )
 }

@@ -1,76 +1,89 @@
 'use client'
 
-import { TripProvider } from '@/lib/trip-context'
-import { DailyItineraryView } from '@/components/itinerary/daily-itinerary'
-import { MapPage } from '@/components/map/map-page'
-import { BudgetTracker } from '@/components/budget/budget-tracker'
-import { PackingList } from '@/components/packing/packing-list'
-import { NotesSection } from '@/components/notes/notes-section'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Calendar, Map, Wallet, Package, BookOpen } from 'lucide-react'
+import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
+import { TripProvider, useTrip } from '@/lib/trip-context'
 
-export default function Dashboard() {
+function HomeContent() {
+  const { savedCount } = useTrip()
+
   return (
-    <TripProvider>
-      <div className="min-h-screen bg-background">
-        <div className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-          <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <h1 className="text-3xl font-bold tracking-tight text-foreground">
-              Japan 2026 Trip Planner
-            </h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              Organize your entire trip with itinerary, map, budget, and more
-            </p>
+    <div className="relative min-h-screen bg-background overflow-hidden">
+      {/* Japanese text on left side */}
+      <div className="absolute left-6 top-1/2 -translate-y-1/2 writing-vertical text-muted-foreground/20 text-3xl tracking-[0.3em] font-light select-none hidden lg:block">
+        日本のフィールドガイド
+      </div>
+      
+      {/* Japanese text on right side */}
+      <div className="absolute right-6 top-1/2 -translate-y-1/2 writing-vertical text-muted-foreground/20 text-3xl tracking-[0.3em] font-light select-none hidden lg:block">
+        東京2026年
+      </div>
+
+      {/* Main content */}
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6">
+        {/* Japan Flag */}
+        <div className="mb-10">
+          <div className="w-36 h-24 bg-white flex items-center justify-center shadow-2xl transform -rotate-2 hover:rotate-0 transition-transform duration-700 ease-out">
+            <div className="w-12 h-12 rounded-full bg-[#BC002D]" />
           </div>
         </div>
 
-        <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <Tabs defaultValue="itinerary" className="w-full">
-            <TabsList className="grid w-full grid-cols-5 mb-8">
-              <TabsTrigger value="itinerary" className="gap-2">
-                <Calendar className="h-4 w-4" />
-                <span className="hidden sm:inline">Itinerary</span>
-              </TabsTrigger>
-              <TabsTrigger value="map" className="gap-2">
-                <Map className="h-4 w-4" />
-                <span className="hidden sm:inline">Map</span>
-              </TabsTrigger>
-              <TabsTrigger value="budget" className="gap-2">
-                <Wallet className="h-4 w-4" />
-                <span className="hidden sm:inline">Budget</span>
-              </TabsTrigger>
-              <TabsTrigger value="packing" className="gap-2">
-                <Package className="h-4 w-4" />
-                <span className="hidden sm:inline">Packing</span>
-              </TabsTrigger>
-              <TabsTrigger value="notes" className="gap-2">
-                <BookOpen className="h-4 w-4" />
-                <span className="hidden sm:inline">Notes</span>
-              </TabsTrigger>
-            </TabsList>
+        {/* Japanese Title */}
+        <p className="text-muted-foreground/60 text-sm tracking-[0.2em] mb-2">日本のフィールドガイド</p>
+        <p className="text-muted-foreground/40 text-xs tracking-[0.15em] mb-6">東京2026年2月</p>
 
-            <TabsContent value="itinerary" className="space-y-6">
-              <DailyItineraryView />
-            </TabsContent>
+        {/* Main Title */}
+        <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-3 text-center tracking-tight">
+          日本のフィールドガイド
+        </h1>
+        <p className="text-muted-foreground text-base mb-1 font-sans">Japan Field Guide</p>
+        <p className="text-muted-foreground/60 text-sm font-mono tracking-widest uppercase mb-16">
+          Tokyo &middot; Feb 12–20, 2026
+        </p>
 
-            <TabsContent value="map" className="space-y-6">
-              <MapPage />
-            </TabsContent>
-
-            <TabsContent value="budget" className="space-y-6">
-              <BudgetTracker />
-            </TabsContent>
-
-            <TabsContent value="packing" className="space-y-6">
-              <PackingList />
-            </TabsContent>
-
-            <TabsContent value="notes" className="space-y-6">
-              <NotesSection />
-            </TabsContent>
-          </Tabs>
-        </div>
+        {/* Navigation Links */}
+        <nav className="flex flex-wrap gap-4 justify-center">
+          <Link 
+            href="/map" 
+            className="group flex items-center justify-between px-6 py-4 border border-border hover:border-foreground/40 transition-all duration-300 min-w-[160px] bg-transparent"
+          >
+            <span className="text-foreground font-medium">Map</span>
+            <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+          </Link>
+          <Link 
+            href="/planning" 
+            className="group flex items-center justify-between px-6 py-4 border border-border hover:border-foreground/40 transition-all duration-300 min-w-[160px] bg-transparent"
+          >
+            <span className="text-foreground font-medium">Planning</span>
+            <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+          </Link>
+          <Link 
+            href="/saved" 
+            className="group flex items-center justify-between px-6 py-4 border border-border hover:border-foreground/40 transition-all duration-300 min-w-[160px] bg-transparent"
+          >
+            <span className="text-foreground font-medium">Saved</span>
+            <span className="flex items-center gap-2">
+              <span className="text-muted-foreground font-mono text-sm">{savedCount}</span>
+              <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+            </span>
+          </Link>
+        </nav>
       </div>
+
+      {/* Footer */}
+      <footer className="absolute bottom-6 left-0 right-0 text-center">
+        <p className="text-muted-foreground/40 text-xs font-mono tracking-wide">
+          Built with v0 &middot; 2026
+        </p>
+      </footer>
+    </div>
+  )
+}
+
+export default function HomePage() {
+  return (
+    <TripProvider>
+      <HomeContent />
     </TripProvider>
   )
 }
