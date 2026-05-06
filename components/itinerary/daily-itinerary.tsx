@@ -20,6 +20,9 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { ActivityForm } from './activity-form'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { LogIn, AlertCircle } from 'lucide-react'
+import Link from 'next/link'
 
 const CATEGORY_COLORS = {
   food: 'bg-red-100 text-red-800',
@@ -32,7 +35,7 @@ const CATEGORY_COLORS = {
 }
 
 export function DailyItineraryView() {
-  const { trip } = useTrip()
+  const { trip, isGuest, user } = useTrip()
   const [days, setDays] = useState<(Day & { activities: Activity[] })[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedDay, setSelectedDay] = useState<Day | null>(null)
@@ -159,6 +162,20 @@ export function DailyItineraryView() {
 
   return (
     <div className="space-y-6">
+      {/* Guest Warning */}
+      {isGuest && (
+        <Alert>
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Sign in to save your trip</AlertTitle>
+          <AlertDescription className="flex items-center gap-2">
+            <span>Your changes won&apos;t be saved until you sign in.</span>
+            <Link href="/auth/login" className="text-primary underline hover:no-underline font-medium">
+              Sign in
+            </Link>
+          </AlertDescription>
+        </Alert>
+      )}
+
       {/* Header */}
       <div className="space-y-2">
         <div className="flex items-center justify-between">
@@ -168,7 +185,7 @@ export function DailyItineraryView() {
           </div>
           <Dialog open={isAddingDay} onOpenChange={setIsAddingDay}>
             <DialogTrigger asChild>
-              <Button className="gap-2">
+              <Button className="gap-2" disabled={isGuest}>
                 <Plus className="h-4 w-4" />
                 Add Day
               </Button>
@@ -176,6 +193,7 @@ export function DailyItineraryView() {
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Add a New Day</DialogTitle>
+                <DialogDescription>Add a new day to your trip itinerary.</DialogDescription>
               </DialogHeader>
               <div className="space-y-4">
                 <div>

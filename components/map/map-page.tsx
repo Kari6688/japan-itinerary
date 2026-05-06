@@ -3,11 +3,27 @@
 import { useEffect, useState } from 'react'
 import { useTrip } from '@/lib/trip-context'
 import { Activity } from '@/lib/types'
-import { SpotMap } from '@/components/map/spot-map'
 import { Card } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { createClient } from '@/lib/supabase/client'
 import { MapPin } from 'lucide-react'
+import dynamic from 'next/dynamic'
+
+// Dynamically import SpotMap with SSR disabled since Leaflet requires window
+const SpotMap = dynamic(
+  () => import('@/components/map/spot-map').then((mod) => mod.SpotMap),
+  { 
+    ssr: false,
+    loading: () => (
+      <Card className="h-96 sm:h-[500px] flex items-center justify-center">
+        <div className="text-center space-y-2">
+          <Skeleton className="h-8 w-8 rounded-full mx-auto" />
+          <p className="text-sm text-muted-foreground">Loading map...</p>
+        </div>
+      </Card>
+    )
+  }
+)
 
 export function MapPage() {
   const { trip } = useTrip()
@@ -87,9 +103,10 @@ export function MapPage() {
 
           <Card className="p-4 text-center">
             <div className="text-2xl font-bold text-primary">
-              ¥{activities
+              {activities
                 .reduce((sum, a) => sum + (a.cost || 0), 0)
-                .toLocaleString()}
+                .toLocaleString()}{' '}
+              JPY
             </div>
             <div className="text-xs text-muted-foreground">Total Cost</div>
           </Card>
@@ -125,7 +142,7 @@ export function MapPage() {
                 onClick={() => setSelectedActivity(null)}
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
-                ✕
+                X
               </button>
             </div>
 
@@ -155,7 +172,7 @@ export function MapPage() {
                 <div>
                   <p className="text-xs text-muted-foreground">Cost</p>
                   <p className="font-semibold text-foreground">
-                    ¥{selectedActivity.cost.toLocaleString()}
+                    {selectedActivity.cost.toLocaleString()} JPY
                   </p>
                 </div>
               )}
