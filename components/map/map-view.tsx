@@ -1,24 +1,24 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { useTrip } from '@/lib/trip-context'
 import { Star, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-const MapContainer = dynamic(
+const DynamicMapContainer = dynamic(
   () => import('react-leaflet').then((mod) => mod.MapContainer),
-  { ssr: false }
+  { ssr: false, loading: () => <div className="w-full h-full bg-muted flex items-center justify-center">Loading map...</div> }
 )
-const TileLayer = dynamic(
+const DynamicTileLayer = dynamic(
   () => import('react-leaflet').then((mod) => mod.TileLayer),
   { ssr: false }
 )
-const CircleMarker = dynamic(
+const DynamicCircleMarker = dynamic(
   () => import('react-leaflet').then((mod) => mod.CircleMarker),
   { ssr: false }
 )
-const Popup = dynamic(
+const DynamicPopup = dynamic(
   () => import('react-leaflet').then((mod) => mod.Popup),
   { ssr: false }
 )
@@ -56,6 +56,7 @@ export function MapView() {
   const { savedSpots, setSavedSpots } = useTrip()
   const [activeCategory, setActiveCategory] = useState('all')
   const [visitedSpots, setVisitedSpots] = useState<string[]>([])
+  const [mapKey, setMapKey] = useState(0)
 
   const filteredSpots = useMemo(() => {
     if (activeCategory === 'all') return SAMPLE_SPOTS
@@ -74,18 +75,24 @@ export function MapView() {
     <div className="w-full h-full flex flex-col">
       {/* Map */}
       <div className="flex-1 relative min-h-0">
-        <MapContainer
+        <DynamicMapContainer
+          key={mapKey}
           center={[35.6762, 139.6503]}
           zoom={11}
           className="h-full w-full"
           zoomControl={true}
+          dragging={true}
+          zoomAnimation={true}
+          touchZoom={true}
+          doubleClickZoom={true}
+          scrollWheelZoom={true}
         >
-          <TileLayer
+          <DynamicTileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>'
             url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
           />
           {filteredSpots.map((spot) => (
-            <CircleMarker
+            <DynamicCircleMarker
               key={spot.id}
               center={[spot.lat, spot.lng]}
               radius={6}
@@ -96,15 +103,15 @@ export function MapView() {
                 weight: 2,
               }}
             >
-              <Popup>
+              <DynamicPopup>
                 <div className="text-xs md:text-sm">
                   <p className="font-bold">{spot.name}</p>
                   <p className="text-muted-foreground">{spot.location}</p>
                 </div>
-              </Popup>
-            </CircleMarker>
+              </DynamicPopup>
+            </DynamicCircleMarker>
           ))}
-        </MapContainer>
+        </DynamicMapContainer>
       </div>
 
       {/* Category Filters - Mobile Optimized */}
