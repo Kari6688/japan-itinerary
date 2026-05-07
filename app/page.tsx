@@ -1,89 +1,160 @@
 'use client'
 
+import dynamic from 'next/dynamic'
+import { useState } from 'react'
+import { useTrip } from '@/lib/trip-context'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
+import { CheckCircle2, MapPin, ChevronDown, Heart } from 'lucide-react'
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
-import { TripProvider, useTrip } from '@/lib/trip-context'
 
-function HomeContent() {
-  const { savedCount } = useTrip()
+const MapView = dynamic(() => import('@/components/map/map-view').then(mod => mod.MapView), {
+  ssr: false,
+  loading: () => <div className="w-full h-80 md:h-96 bg-muted animate-pulse rounded-lg" />
+})
 
-  return (
-    <div className="relative min-h-screen bg-background overflow-hidden">
-      {/* Japanese text on left side */}
-      <div className="absolute left-6 top-1/2 -translate-y-1/2 writing-vertical text-muted-foreground/20 text-3xl tracking-[0.3em] font-light select-none hidden lg:block">
-        日本のフィールドガイド
-      </div>
-      
-      {/* Japanese text on right side */}
-      <div className="absolute right-6 top-1/2 -translate-y-1/2 writing-vertical text-muted-foreground/20 text-3xl tracking-[0.3em] font-light select-none hidden lg:block">
-        東京2026年
-      </div>
-
-      {/* Main content */}
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6">
-        {/* Japan Flag */}
-        <div className="mb-10">
-          <div className="w-36 h-24 bg-white flex items-center justify-center shadow-2xl transform -rotate-2 hover:rotate-0 transition-transform duration-700 ease-out">
-            <div className="w-12 h-12 rounded-full bg-[#BC002D]" />
-          </div>
-        </div>
-
-        {/* Japanese Title */}
-        <p className="text-muted-foreground/60 text-sm tracking-[0.2em] mb-2">日本のフィールドガイド</p>
-        <p className="text-muted-foreground/40 text-xs tracking-[0.15em] mb-6">東京2026年2月</p>
-
-        {/* Main Title */}
-        <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-3 text-center tracking-tight">
-          日本のフィールドガイド
-        </h1>
-        <p className="text-muted-foreground text-base mb-1 font-sans">Japan Field Guide</p>
-        <p className="text-muted-foreground/60 text-sm font-mono tracking-widest uppercase mb-16">
-          Tokyo &middot; Feb 12–20, 2026
-        </p>
-
-        {/* Navigation Links */}
-        <nav className="flex flex-wrap gap-4 justify-center">
-          <Link 
-            href="/map" 
-            className="group flex items-center justify-between px-6 py-4 border border-border hover:border-foreground/40 transition-all duration-300 min-w-[160px] bg-transparent"
-          >
-            <span className="text-foreground font-medium">Map</span>
-            <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-1 transition-transform" />
-          </Link>
-          <Link 
-            href="/planning" 
-            className="group flex items-center justify-between px-6 py-4 border border-border hover:border-foreground/40 transition-all duration-300 min-w-[160px] bg-transparent"
-          >
-            <span className="text-foreground font-medium">Planning</span>
-            <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-1 transition-transform" />
-          </Link>
-          <Link 
-            href="/saved" 
-            className="group flex items-center justify-between px-6 py-4 border border-border hover:border-foreground/40 transition-all duration-300 min-w-[160px] bg-transparent"
-          >
-            <span className="text-foreground font-medium">Saved</span>
-            <span className="flex items-center gap-2">
-              <span className="text-muted-foreground font-mono text-sm">{savedCount}</span>
-              <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-1 transition-transform" />
-            </span>
-          </Link>
-        </nav>
-      </div>
-
-      {/* Footer */}
-      <footer className="absolute bottom-6 left-0 right-0 text-center">
-        <p className="text-muted-foreground/40 text-xs font-mono tracking-wide">
-          Built with v0 &middot; 2026
-        </p>
-      </footer>
-    </div>
-  )
-}
+const PLANNING_SECTIONS = [
+  {
+    title: 'Before You Go',
+    items: ['Check passport expiration', 'Book flights', 'Reserve hotels', 'Travel insurance', 'Notify bank']
+  },
+  {
+    title: 'Packing',
+    items: ['Clothing', 'Toiletries', 'Electronics & chargers', 'Medications', 'Travel documents']
+  },
+  {
+    title: 'Practical Info',
+    items: ['Learn basic Japanese phrases', 'Download translation app', 'Get Japan Rail Pass', 'Arrange transportation', 'Check weather forecast']
+  },
+  {
+    title: 'Money & Payments',
+    items: ['Notify credit card companies', 'Exchange some currency', 'Learn about IC cards (Suica/Pasmo)', 'Budget by region', 'Find ATMs']
+  }
+]
 
 export default function HomePage() {
+  const { savedCount, savedSpots, setSavedSpots } = useTrip()
+  const [expandedSections, setExpandedSections] = useState<string[]>(['Before You Go'])
+  
+  const toggleSection = (title: string) => {
+    setExpandedSections(prev =>
+      prev.includes(title)
+        ? prev.filter(t => t !== title)
+        : [...prev, title]
+    )
+  }
+
+  const dummySavedSpots = [
+    { id: '1', name: 'Senso-ji Temple', location: 'Asakusa', category: 'landmark' },
+    { id: '2', name: 'Tsukiji Outer Market', location: 'Chuo', category: 'food' },
+    { id: '3', name: 'Takeshita Street', location: 'Shibuya', category: 'shopping' }
+  ]
+
   return (
-    <TripProvider>
-      <HomeContent />
-    </TripProvider>
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="sticky top-0 z-40 bg-card border-b border-border">
+        <div className="max-w-6xl mx-auto px-4 py-3 md:py-4 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2">
+            <MapPin className="h-5 w-5 md:h-6 md:w-6 text-primary" />
+            <h1 className="text-lg md:text-xl font-bold text-foreground">Japan 2026</h1>
+          </Link>
+          <div className="text-xs md:text-sm text-muted-foreground">
+            {savedCount > 0 && <span className="font-medium text-primary">{savedCount} saved</span>}
+          </div>
+        </div>
+      </header>
+
+      <main className="max-w-6xl mx-auto px-4 py-4 md:py-6">
+        <div className="space-y-5 md:space-y-6">
+          
+          {/* Map Section */}
+          <section>
+            <h2 className="text-base md:text-lg font-semibold text-foreground mb-3 px-1">Map</h2>
+            <div className="card-section p-0 overflow-hidden h-72 md:h-96 lg:h-[500px]">
+              <MapView />
+            </div>
+          </section>
+
+          {/* Planning Section */}
+          <section>
+            <h2 className="text-base md:text-lg font-semibold text-foreground mb-3 px-1">Planning</h2>
+            <div className="space-y-2">
+              {PLANNING_SECTIONS.map((section) => (
+                <Collapsible key={section.title} open={expandedSections.includes(section.title)}>
+                  <CollapsibleTrigger asChild>
+                    <button
+                      onClick={() => toggleSection(section.title)}
+                      className="card-section w-full flex items-center justify-between hover:bg-muted/50 active:bg-muted"
+                    >
+                      <span className="font-medium text-foreground text-sm md:text-base">{section.title}</span>
+                      <ChevronDown
+                        className={`h-5 w-5 transition-transform flex-shrink-0 ${
+                          expandedSections.includes(section.title) ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </button>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent>
+                    <div className="space-y-2 mt-2 pl-4">
+                      {section.items.map((item) => (
+                        <div key={item} className="flex items-start gap-3 py-2">
+                          <CheckCircle2 className="h-4 w-4 md:h-5 md:w-5 text-accent mt-0.5 flex-shrink-0" />
+                          <span className="text-sm md:text-base text-foreground">{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </CollapsibleContent>
+                </Collapsible>
+              ))}
+            </div>
+          </section>
+
+          {/* Saved Spots Section */}
+          <section>
+            <div className="flex items-center justify-between mb-3 px-1">
+              <h2 className="text-base md:text-lg font-semibold text-foreground">Saved</h2>
+              {savedCount > 0 && (
+                <span className="text-xs md:text-sm bg-primary/10 text-primary px-2 py-1 rounded font-medium">
+                  {savedCount}
+                </span>
+              )}
+            </div>
+            
+            {savedCount === 0 ? (
+              <div className="card-section text-center py-8 md:py-10">
+                <Heart className="h-10 w-10 md:h-12 md:w-12 text-muted-foreground mx-auto mb-3 opacity-50" />
+                <p className="text-muted-foreground text-sm md:text-base mb-2 font-medium">No saved spots yet</p>
+                <p className="text-xs md:text-sm text-muted-foreground">
+                  Explore the map and save your favorite locations
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {dummySavedSpots.slice(0, savedCount).map((spot) => (
+                  <div key={spot.id} className="card-section flex items-start justify-between gap-3">
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-medium text-foreground text-sm md:text-base">{spot.name}</h3>
+                      <p className="text-xs md:text-sm text-muted-foreground">{spot.location}</p>
+                    </div>
+                    <button
+                      onClick={() => {
+                        setSavedSpots(savedSpots.filter(id => id !== spot.id))
+                      }}
+                      className="p-2 hover:bg-muted rounded transition-colors flex-shrink-0"
+                      aria-label="Remove from saved"
+                    >
+                      <Heart className="h-4 w-4 md:h-5 md:w-5 fill-primary text-primary" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+
+          {/* Footer Spacing */}
+          <div className="h-8" />
+        </div>
+      </main>
+    </div>
   )
 }
