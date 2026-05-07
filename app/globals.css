@@ -1,0 +1,84 @@
+@import 'tailwindcss';
+
+@theme inline {
+  --font-sans: 'Geist', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', monospace;
+  
+  --color-background: #fafafa;
+  --color-foreground: #0a0a0a;
+  --color-muted: #f0f0f0;
+  --color-muted-foreground: #666666;
+  --color-border: #e5e5e5;
+  --color-primary: #2563eb;
+  --color-primary-foreground: #ffffff;
+  --color-accent: #059669;
+  --color-accent-foreground: #ffffff;
+  --color-card: #ffffff;
+  --color-card-foreground: #0a0a0a;
+  --radius: 0.75rem;
+}
+
+* {
+  @apply border-border;
+}
+
+body {
+  @apply bg-background text-foreground font-sans;
+}
+
+html {
+  @apply scroll-smooth;
+}
+
+/* Remove scrollbar on map container */
+.map-container::-webkit-scrollbar {
+  display: none;
+}
+
+.map-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Smooth transitions */
+* {
+  @apply transition-colors duration-200;
+}
+
+/* Mobile-first responsive */
+@media (max-width: 640px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+/* Card styles */
+.card-section {
+  @apply bg-card rounded-2xl p-4 md:p-6 shadow-sm border border-border;
+}
+
+/* Leaflet customization */
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  background: var(--color-background);
+}
+
+.leaflet-control-zoom {
+  border: none !important;
+}
+
+.leaflet-control-zoom a {
+  @apply bg-card text-foreground border border-border;
+  width: 32px !important;
+  height: 32px !important;
+  line-height: 30px !important;
+}
+
+.leaflet-control-zoom a:hover {
+  @apply bg-primary text-primary-foreground;
+}
+
+.leaflet-tile-pane {
+  filter: brightness(0.95) contrast(1.05);
+}
