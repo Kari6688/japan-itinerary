@@ -27,13 +27,9 @@ export default function Home() {
   const [planningCount, setPlanningCount] = useState(0);
   const lists = getSourceLists();
   const mapped = mappablePlaces(places).length;
-  const cities = [
-    ...new Set(
-      places
-        .map((p) => p.city)
-        .filter((c) => c && c !== "Japan" && c !== "Unknown"),
-    ),
-  ];
+  const cities = ["Tokyo", "Kyoto", "Uji", "Osaka", "Kamakura"].filter((c) =>
+    places.some((p) => p.city === c),
+  );
   const featured = places
     .filter((p) => p.lat != null && p.rating != null)
     .sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0))
@@ -77,7 +73,7 @@ export default function Home() {
         <p className="px-4 py-3 text-center text-[14px] text-[var(--ink)]">
           Your playground is{" "}
           <span className="font-display text-[15px] text-[var(--accent)]">
-            {cities.slice(0, 3).join(", ") || "Japan"}
+            {cities.join(" · ") || "Japan"}
           </span>
           .
         </p>
@@ -232,14 +228,15 @@ export default function Home() {
       </section>
 
       <p className="mt-5 text-center text-[11px] leading-relaxed text-[var(--ink-muted)]">
-        Lists refresh from Google Maps via{" "}
+        Showing saved Maps spots in Tokyo, Osaka, Uji, Kyoto &amp; Kamakura.
+        Refresh with{" "}
         <code className="rounded bg-white/80 px-1 py-0.5 text-[10px]">
           pnpm sync:maps
         </code>
         {syncMeta?.lastSyncedAt
           ? ` · last sync ${new Date(syncMeta.lastSyncedAt).toLocaleDateString()}`
           : " · daily GitHub Action"}
-        . Adding a spot in Maps updates this app after the next sync.
+        .
       </p>
 
       <footer className="mt-auto pt-8 text-center">

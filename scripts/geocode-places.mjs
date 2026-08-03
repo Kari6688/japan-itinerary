@@ -7,6 +7,7 @@ import {
   parseNeighbourhood,
   placeKey,
   refineCategory,
+  filterAllowedPlaces,
 } from "./lib/maps-shared.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -212,14 +213,25 @@ async function main() {
   }
 
   await browser.close();
-  fs.writeFileSync(outputPath, JSON.stringify(out, null, 2));
+
+  const filtered = filterAllowedPlaces(out);
+  const dropped = out.length - filtered.length;
+  fs.writeFileSync(outputPath, JSON.stringify(filtered, null, 2));
   if (fs.existsSync(outputPath + ".partial")) fs.unlinkSync(outputPath + ".partial");
 
-  const withCoords = out.filter((p) => p.lat != null).length;
+  const withCoords = filtered.filter((p) => p.lat != null).length;
   const byList = {};
-  for (const p of out) byList[p.sourceList] = (byList[p.sourceList] || 0) + 1;
+  const byCity = {};
+  for (const p of filtered) {
+    byList[p.sourceList] = (byList[p.sourceList] || 0) + 1;
+    byCity[p.city] = (byCity[p.city] || 0) + 1;
+  }
   console.log(
-    JSON.stringify({ total: out.length, withCoords, lookedUp, reused, byList }, null, 2),
+    JSON.stringify(
+      { total: filtered.length, withCoords, lookedUp, reused, dropped, byList, byCity },
+      null,
+      2,
+    ),
   );
 }
 

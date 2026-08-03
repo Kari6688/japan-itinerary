@@ -1,17 +1,31 @@
 {
-  "lastSyncedAt": "2026-08-03T19:42:53.769Z",
-  "totalPlaces": 294,
-  "withCoordinates": 290,
+  "lastSyncedAt": "2026-08-03T19:57:19.652Z",
+  "totalPlaces": 266,
+  "withCoordinates": 266,
   "byList": {
     "culture": 15,
-    "food": 84,
-    "desserts-jp": 32,
-    "bar-jp": 13,
-    "shopping-jp": 60,
-    "matcha-jp": 53,
+    "food": 72,
+    "desserts-jp": 30,
+    "bar-jp": 11,
+    "shopping-jp": 53,
+    "matcha-jp": 50,
     "bookstore-jp": 4,
-    "ceramics-jp": 19,
+    "ceramics-jp": 17,
     "cafe-jp": 14
   },
-  "note": "Google Maps has no push API for saved lists. Re-run pnpm sync:maps (or the GitHub Action) after adding spots."
+  "byCity": {
+    "Kyoto": 54,
+    "Tokyo": 172,
+    "Uji": 25,
+    "Kamakura": 1,
+    "Osaka": 14
+  },
+  "allowedCities": [
+    "Tokyo",
+    "Osaka",
+    "Uji",
+    "Kyoto",
+    "Kamakura"
+  ],
+  "note": "Only spots in Tokyo, Osaka, Uji, Kyoto, and Kamakura are kept. Google Maps has no push API — re-run pnpm sync:maps after adding spots."
 }

@@ -59,15 +59,19 @@ async function main() {
 
   const places = JSON.parse(fs.readFileSync(placesPath, "utf8"));
   const byList = {};
+  const byCity = {};
   for (const p of places) {
     byList[p.sourceList] = (byList[p.sourceList] || 0) + 1;
+    byCity[p.city] = (byCity[p.city] || 0) + 1;
   }
   const meta = {
     lastSyncedAt: new Date().toISOString(),
     totalPlaces: places.length,
     withCoordinates: places.filter((p) => p.lat != null).length,
     byList,
-    note: "Google Maps has no push API for saved lists. Re-run pnpm sync:maps (or the GitHub Action) after adding spots.",
+    byCity,
+    allowedCities: ["Tokyo", "Osaka", "Uji", "Kyoto", "Kamakura"],
+    note: "Only spots in Tokyo, Osaka, Uji, Kyoto, and Kamakura are kept. Google Maps has no push API for saved lists — re-run pnpm sync:maps (or the GitHub Action) after adding spots.",
   };
   fs.writeFileSync(metaPath, JSON.stringify(meta, null, 2));
   console.log("Sync complete:", meta);

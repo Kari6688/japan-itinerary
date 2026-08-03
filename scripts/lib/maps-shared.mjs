@@ -91,13 +91,15 @@ export function parseNeighbourhood(address, url, lat, lng) {
     ["Nishiki", "Nakagyo", "Kyoto"],
     ["Kiyomizu", "Higashiyama", "Kyoto"],
     ["Fushimi", "Fushimi", "Kyoto"],
-    ["Uji", "Uji", "Kyoto"],
+    ["Uji", "Uji", "Uji"],
     ["Philosopher", "Sakyo", "Kyoto"],
     ["Namba", "Osaka", "Osaka"],
     ["Umeda", "Osaka", "Osaka"],
     ["Dotonbori", "Osaka", "Osaka"],
     ["Shinsaibashi", "Osaka", "Osaka"],
     ["Tennoji", "Osaka", "Osaka"],
+    ["Kamakura", "Kamakura", "Kamakura"],
+    ["Yuigahama", "Kamakura", "Kamakura"],
   ];
 
   const text = `${address || ""} ${url || ""}`;
@@ -107,10 +109,22 @@ export function parseNeighbourhood(address, url, lat, lng) {
 
   let city = null;
   let neighbourhood = null;
+
+  // Uji is its own city (often written "Uji, Kyoto" in addresses)
+  if (
+    /,\s*Uji\b/i.test(text) ||
+    /\bUji,\s*Kyoto/i.test(text) ||
+    /〒611-/.test(text) ||
+    /宇治市/.test(text)
+  ) {
+    city = "Uji";
+    neighbourhood = "Uji";
+  }
+
   const tokyo =
     text.match(/([A-Za-z\-]+)\s+City,\s*Tokyo/i) ||
     text.match(/([A-Za-z\-]+)-ku,\s*Tokyo/i);
-  if (tokyo) {
+  if (tokyo && !city) {
     neighbourhood = tokyo[1];
     city = "Tokyo";
   }
@@ -119,30 +133,83 @@ export function parseNeighbourhood(address, url, lat, lng) {
     text.match(/Kyoto,\s*([A-Za-z\-]+)/i);
   if (kyoto && !city) {
     neighbourhood = kyoto[1];
-    city = "Kyoto";
+    city = /uji/i.test(kyoto[1]) ? "Uji" : "Kyoto";
   }
   const osaka = text.match(/([A-Za-z\-]+)\s+(?:Ward|City),\s*Osaka/i);
   if (osaka && !city) {
     neighbourhood = osaka[1];
     city = "Osaka";
   }
+  if (/Kamakura|鎌倉/i.test(text)) {
+    city = "Kamakura";
+    neighbourhood = neighbourhood || "Kamakura";
+  }
   if (/Tokyo/i.test(text)) city = city || "Tokyo";
-  if (/Kyoto/i.test(text)) city = city || "Kyoto";
+  if (/Kyoto/i.test(text) && city !== "Uji") city = city || "Kyoto";
   if (/Osaka/i.test(text)) city = city || "Osaka";
   if (/Nagoya/i.test(text)) city = city || "Nagoya";
   if (/Fukuoka/i.test(text)) city = city || "Fukuoka";
-  if (/Kamakura/i.test(text)) city = city || "Kamakura";
 
-  if (!city && lat && lng) {
-    if (lat > 35.4 && lat < 35.9 && lng > 139.4 && lng < 139.95) city = "Tokyo";
-    else if (lat > 34.85 && lat < 35.12 && lng > 135.6 && lng < 135.9) city = "Kyoto";
-    else if (lat > 34.55 && lat < 34.8 && lng > 135.35 && lng < 135.65) city = "Osaka";
+  if ((!city || city === "Japan") && lat && lng) {
+    const inferred = inferCityFromCoords(lat, lng);
+    if (inferred) {
+      city = inferred.city;
+      neighbourhood = neighbourhood || inferred.neighbourhood;
+    }
+  }
+
+  // Prefer Uji when neighbourhood / postal already says so
+  if (
+    /^uji$/i.test(String(neighbourhood || "")) ||
+    /,\s*Uji\b/i.test(text) ||
+    /\bUji,\s*Kyoto/i.test(text) ||
+    /〒611-/.test(text)
+  ) {
+    city = "Uji";
+    neighbourhood = neighbourhood || "Uji";
   }
 
   return {
     neighbourhood: neighbourhood || city || "Japan",
     city: city || "Japan",
   };
+}
+
+export function inferCityFromCoords(lat, lng) {
+  if (lat == null || lng == null) return null;
+  // Kamakura / Miura coast
+  if (lat > 35.28 && lat < 35.36 && lng > 139.48 && lng < 139.6) {
+    return { city: "Kamakura", neighbourhood: "Kamakura" };
+  }
+  // Greater Tokyo (23 wards + close suburbs)
+  if (lat > 35.45 && lat < 35.85 && lng > 139.45 && lng < 139.95) {
+    return { city: "Tokyo", neighbourhood: "Tokyo" };
+  }
+  // Uji (south of Kyoto city)
+  if (lat > 34.86 && lat < 34.93 && lng > 135.78 && lng < 135.85) {
+    return { city: "Uji", neighbourhood: "Uji" };
+  }
+  // Kyoto city
+  if (lat > 34.9 && lat < 35.1 && lng > 135.68 && lng < 135.85) {
+    return { city: "Kyoto", neighbourhood: "Kyoto" };
+  }
+  // Osaka city
+  if (lat > 34.55 && lat < 34.8 && lng > 135.4 && lng < 135.6) {
+    return { city: "Osaka", neighbourhood: "Osaka" };
+  }
+  return null;
+}
+
+export const ALLOWED_CITIES = ["Tokyo", "Osaka", "Uji", "Kyoto", "Kamakura"];
+
+export function isAllowedCity(city) {
+  return ALLOWED_CITIES.some(
+    (c) => c.toLowerCase() === String(city || "").toLowerCase(),
+  );
+}
+
+export function filterAllowedPlaces(list) {
+  return list.filter((p) => isAllowedCity(p.city));
 }
 
 export function placeKey(sourceList, name) {
