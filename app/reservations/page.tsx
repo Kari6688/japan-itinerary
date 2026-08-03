@@ -31,7 +31,12 @@ export default function ReservationsPage() {
   const foodPlaces = useMemo(
     () =>
       places
-        .filter((p) => p.category === "food" || p.sourceList === "food")
+        .filter(
+          (p) =>
+            p.category === "food" ||
+            p.category === "cafe" ||
+            /food|dessert|bar|cafe|matcha/i.test(p.sourceList),
+        )
         .slice()
         .sort((a, b) => a.name.localeCompare(b.name)),
     [],

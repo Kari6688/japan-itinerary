@@ -1,10 +1,17 @@
 {
-  "lastSyncedAt": null,
-  "totalPlaces": 99,
-  "withCoordinates": 95,
+  "lastSyncedAt": "2026-08-03T19:42:53.769Z",
+  "totalPlaces": 294,
+  "withCoordinates": 290,
   "byList": {
     "culture": 15,
-    "food": 84
+    "food": 84,
+    "desserts-jp": 32,
+    "bar-jp": 13,
+    "shopping-jp": 60,
+    "matcha-jp": 53,
+    "bookstore-jp": 4,
+    "ceramics-jp": 19,
+    "cafe-jp": 14
   },
   "note": "Google Maps has no push API for saved lists. Re-run pnpm sync:maps (or the GitHub Action) after adding spots."
 }
