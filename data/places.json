@@ -3540,26 +3540,6 @@
     "priority": "normal"
   },
   {
-    "id": "102-muji",
-    "name": "Muji",
-    "category": "shopping",
-    "subtype": null,
-    "sourceList": "shopping-jp",
-    "sourceListName": "Shopping- jp",
-    "sourceUrl": "https://maps.app.goo.gl/EFw4sK53zeubdgWm7",
-    "rating": null,
-    "reviewCount": null,
-    "price": null,
-    "mapsUrl": "https://www.google.com/maps/search/Muji+Japan/@37.6916797,-149.2533058,3z/data=!3m1!4b1?entry=ttu",
-    "lat": 37.6916797,
-    "lng": -149.2533058,
-    "neighbourhood": "Uji",
-    "city": "Uji",
-    "address": null,
-    "notes": null,
-    "priority": "normal"
-  },
-  {
     "id": "103-muji-daikanyama",
     "name": "MUJI Daikanyama",
     "category": "shopping",
