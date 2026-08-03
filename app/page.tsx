@@ -28,7 +28,7 @@ export default function Home() {
   );
 
   return (
-    <div className="relative mx-auto flex min-h-dvh w-full max-w-lg flex-col px-4 pb-10 pt-5 sm:pt-8">
+    <div className="relative mx-auto flex min-h-dvh w-full max-w-lg flex-col px-4 pb-10 pt-4 sm:pt-6">
       <div
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
@@ -36,6 +36,23 @@ export default function Home() {
             "radial-gradient(ellipse 90% 45% at 50% -5%, rgba(46,41,235,0.1), transparent 55%), radial-gradient(ellipse 50% 35% at 100% 80%, rgba(224,120,48,0.08), transparent 50%)",
         }}
       />
+
+      {/* Top pill nav */}
+      <nav className="mb-4 flex gap-2 text-[13px]">
+        {[
+          { href: "/planning", label: "Planning" },
+          { href: "/reservations", label: "Reservations" },
+          { href: "/itinerary", label: "Itinerary" },
+        ].map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className="flex-1 rounded-full border border-[var(--line)] bg-[var(--surface)] px-3 py-2.5 text-center font-medium text-[var(--ink)] shadow-[var(--shadow-soft)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+          >
+            {item.label}
+          </Link>
+        ))}
+      </nav>
 
       {/* Travellers */}
       <header className="mb-4 flex items-center justify-between gap-3">
