@@ -2,11 +2,13 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useEffect, useState, type ReactNode } from "react";
-import { listColorForPlace } from "@/lib/list-colors";
-import { getSourceLists, mappablePlaces, places } from "@/lib/places";
-import { useReservations } from "@/lib/use-reservations";
-import syncMeta from "@/data/sync-meta.json";
+import { TravellerAvatar } from "@/components/traveller-avatar";
+import { getSourceLists, places } from "@/lib/places";
+import {
+  shortItinerary,
+  tokyoNeighbourhoods,
+  travellers,
+} from "@/lib/trip";
 
 const HomeMapPreview = dynamic(
   () =>
@@ -19,224 +21,197 @@ const HomeMapPreview = dynamic(
   },
 );
 
-const PLANNING_TOTAL = 15;
-const PLANNING_KEY = "karima-japan-planning";
-
 export default function Home() {
-  const { count, mounted } = useReservations();
-  const [planningCount, setPlanningCount] = useState(0);
   const lists = getSourceLists();
-  const mapped = mappablePlaces(places).length;
   const cities = ["Tokyo", "Kyoto", "Uji", "Osaka", "Kamakura"].filter((c) =>
     places.some((p) => p.city === c),
   );
-  const featured = places
-    .filter((p) => p.lat != null && p.rating != null)
-    .sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0))
-    .slice(0, 3);
-  const featuredFallback = places.filter((p) => p.lat != null).slice(0, 3);
-  const stack = (featured.length >= 3 ? featured : featuredFallback).slice(0, 3);
-  const shoppingCount = places.filter((p) => p.category === "shopping").length;
-
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(PLANNING_KEY);
-      if (raw) setPlanningCount((JSON.parse(raw) as string[]).length);
-    } catch {
-      /* ignore */
-    }
-  }, []);
 
   return (
-    <div className="relative mx-auto flex min-h-dvh w-full max-w-lg flex-col px-4 pb-10 pt-6 sm:pt-10">
+    <div className="relative mx-auto flex min-h-dvh w-full max-w-lg flex-col px-4 pb-10 pt-5 sm:pt-8">
       <div
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            "radial-gradient(ellipse 90% 45% at 50% -5%, rgba(46,41,235,0.1), transparent 55%), radial-gradient(ellipse 50% 35% at 100% 80%, rgba(196,91,140,0.08), transparent 50%)",
+            "radial-gradient(ellipse 90% 45% at 50% -5%, rgba(46,41,235,0.1), transparent 55%), radial-gradient(ellipse 50% 35% at 100% 80%, rgba(224,120,48,0.08), transparent 50%)",
         }}
       />
 
-      <section className="home-card overflow-hidden">
-        <div className="relative h-[200px] sm:h-[220px]">
+      {/* Travellers */}
+      <header className="mb-4 flex items-center justify-between gap-3">
+        <div>
+          <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--ink-muted)]">
+            Japan trip
+          </p>
+          <h1 className="mt-0.5 font-display text-[26px] leading-none text-[var(--ink)]">
+            Karima + Ryan
+          </h1>
+        </div>
+        <div className="flex -space-x-2">
+          {travellers.map((t) => (
+            <TravellerAvatar
+              key={t.id}
+              emoji={t.emoji}
+              accent={t.accent}
+              label={t.name}
+              size={42}
+            />
+          ))}
+        </div>
+      </header>
+
+      {/* Clickable map */}
+      <Link
+        href="/map"
+        className="home-card group relative block overflow-hidden transition-transform hover:-translate-y-0.5"
+        aria-label="Open the map"
+      >
+        <div className="relative h-[168px] sm:h-[180px]">
           <HomeMapPreview />
           <div className="pointer-events-none absolute inset-x-0 top-3 flex justify-center px-3">
             <div className="rounded-full bg-white/95 px-3 py-1.5 text-center text-[12px] text-[var(--ink)] shadow-[0_6px_20px_rgba(22,22,42,0.1)] backdrop-blur">
-              There are{" "}
-              <span className="font-semibold tabular-nums">{places.length}</span>{" "}
-              spots across{" "}
-              <span className="font-semibold tabular-nums">{lists.length}</span>{" "}
-              lists
+              {places.length} spots · {lists.length} lists · tap to open map
             </div>
           </div>
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-white via-white/90 to-transparent px-4 pb-3 pt-8">
+            <p className="text-center text-[13px] text-[var(--ink)]">
+              Playground ·{" "}
+              <span className="font-display text-[var(--accent)]">
+                {cities.join(" · ")}
+              </span>
+            </p>
+          </div>
         </div>
-        <p className="px-4 py-3 text-center text-[14px] text-[var(--ink)]">
-          Your playground is{" "}
-          <span className="font-display text-[15px] text-[var(--accent)]">
-            {cities.join(" · ") || "Japan"}
+      </Link>
+
+      {/* Short itinerary dropdown */}
+      <details className="home-card group mt-3 overflow-hidden">
+        <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3.5 text-[14px] font-medium text-[var(--ink)] marker:content-none [&::-webkit-details-marker]:hidden">
+          <span>Short itinerary</span>
+          <span className="text-[12px] text-[var(--ink-muted)] transition-transform group-open:rotate-180">
+            ▾
           </span>
-          .
-        </p>
-      </section>
-
-      <section className="home-card mt-4 px-5 pb-6 pt-7 text-center">
-        <div
-          className="mx-auto flex h-16 w-16 items-center justify-center rounded-full text-white"
-          style={{
-            background:
-              "linear-gradient(145deg, #2E29EB 0%, #5B57F0 55%, #C45B8C 100%)",
-            fontWeight: 800,
-            fontSize: 22,
-          }}
-        >
-          K
+        </summary>
+        <div className="border-t border-[var(--line)] px-4 pb-4 pt-3">
+          <ul className="space-y-2.5">
+            {shortItinerary.map((row) => (
+              <li key={row.label} className="flex gap-3 text-[13px]">
+                <span
+                  className="mt-0.5 w-[5.5rem] shrink-0 font-medium"
+                  style={{ color: "var(--accent)" }}
+                >
+                  {row.label}
+                </span>
+                <span className="text-[var(--ink-muted)]">{row.detail}</span>
+              </li>
+            ))}
+          </ul>
+          <Link
+            href="/itinerary"
+            className="mt-4 inline-flex text-[13px] font-medium text-[var(--accent)] underline-offset-2 hover:underline"
+          >
+            Full itinerary →
+          </Link>
         </div>
-        <p className="mt-3 text-[12px] tracking-wide text-[var(--ink-muted)]">
-          @karima
-        </p>
-        <h1 className="mt-1 font-display text-[28px] leading-none text-[var(--ink)] sm:text-[32px]">
-          Karima
-        </h1>
-        <p className="mt-2 text-[13px] text-[var(--ink-muted)]">
-          Japan trip · {lists.length} Maps lists synced
-        </p>
-        <Link
-          href="/map"
-          className="mx-auto mt-4 flex h-9 w-9 items-center justify-center rounded-full bg-[var(--ink)] text-white transition-transform hover:scale-105"
-          aria-label="Open map"
-        >
-          <span className="text-lg leading-none">+</span>
-        </Link>
+      </details>
 
-        <div className="relative mx-auto mt-6 h-[132px] w-full max-w-[280px]">
-          {stack.map((p, i) => {
-            const rot = i === 0 ? -8 : i === 1 ? 0 : 8;
-            const x = i === 0 ? -42 : i === 1 ? 0 : 42;
-            const z = i === 1 ? 3 : 1;
-            const css = listColorForPlace(p).css;
-            return (
-              <div
-                key={p.id}
-                className="absolute left-1/2 top-0 h-[120px] w-[100px] overflow-hidden rounded-2xl border border-white shadow-[0_10px_28px_rgba(22,22,42,0.14)]"
-                style={{
-                  transform: `translateX(calc(-50% + ${x}px)) rotate(${rot}deg)`,
-                  zIndex: z,
-                  background: `linear-gradient(160deg, ${css}cc, ${css}55 40%, #16162aee)`,
-                }}
-              >
-                <div className="absolute inset-x-0 bottom-0 p-2.5 text-left">
-                  <p className="line-clamp-2 text-[11px] font-medium leading-tight text-white">
-                    {p.name}
-                  </p>
-                  <p className="mt-0.5 text-[10px] text-white/75">
-                    {p.neighbourhood !== "Unknown" ? p.neighbourhood : p.city}
-                  </p>
-                </div>
+      {/* Top 3 */}
+      <section className="mt-3 grid grid-cols-2 gap-3">
+        {travellers.map((t) => (
+          <div key={t.id} className="home-card p-3.5">
+            <div className="flex items-center gap-2">
+              <TravellerAvatar
+                emoji={t.emoji}
+                accent={t.accent}
+                label={t.name}
+                size={32}
+              />
+              <div className="min-w-0">
+                <p className="truncate text-[13px] font-medium text-[var(--ink)]">
+                  {t.name}
+                </p>
+                <p className="truncate text-[10px] text-[var(--ink-muted)]">
+                  {t.days}
+                </p>
               </div>
-            );
-          })}
+            </div>
+            <p
+              className="mt-3 text-[10px] font-medium uppercase tracking-[0.14em]"
+              style={{ color: t.accent }}
+            >
+              Top 3
+            </p>
+            <ol className="mt-1.5 space-y-1.5">
+              {t.top3.map((item, i) => (
+                <li
+                  key={item}
+                  className="flex gap-1.5 text-[11px] leading-snug text-[var(--ink)]"
+                >
+                  <span
+                    className="shrink-0 tabular-nums"
+                    style={{ color: t.accent }}
+                  >
+                    {i + 1}.
+                  </span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        ))}
+      </section>
+
+      {/* Neighbourhoods */}
+      <section className="home-card mt-3 px-4 py-4">
+        <div className="flex items-baseline justify-between gap-2">
+          <h2 className="font-display text-[16px] text-[var(--ink)]">
+            Tokyo neighbourhoods
+          </h2>
+          <Link
+            href="/map"
+            className="text-[11px] font-medium text-[var(--accent)]"
+          >
+            Map →
+          </Link>
         </div>
+        <ul className="mt-3 divide-y divide-[var(--line)]">
+          {tokyoNeighbourhoods.map((n) => (
+            <li
+              key={n.name}
+              className="flex items-start justify-between gap-3 py-2 first:pt-0 last:pb-0"
+            >
+              <span className="text-[13px] font-medium text-[var(--ink)]">
+                {n.name}
+              </span>
+              <span className="text-right text-[12px] text-[var(--ink-muted)]">
+                {n.vibe}
+              </span>
+            </li>
+          ))}
+        </ul>
       </section>
 
-      <section className="mt-4 grid grid-cols-2 gap-3">
-        <AreaCard
-          href="/map"
-          iconColor="var(--accent)"
-          icon={
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M4 7.5 10 5l4 2.5L20 5v11.5L14 19l-4-2.5L4 19V7.5Z"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                strokeLinejoin="round"
-              />
-              <circle cx="12" cy="11" r="1.6" fill="currentColor" />
-            </svg>
-          }
-          value={places.length}
-          label="spots on the map"
-          pill={`${mapped} pinned · ${lists.length} lists`}
-          pillTone="blue"
-        />
-        <AreaCard
+      {/* Compact nav links */}
+      <nav className="mt-3 flex gap-2 text-[13px]">
+        <Link
           href="/planning"
-          iconColor="var(--nature)"
-          icon={
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M6 4h9l3 3v13H6V4Z"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                strokeLinejoin="round"
-              />
-              <path d="M9 11h6M9 15h4" stroke="currentColor" strokeWidth="1.6" />
-            </svg>
-          }
-          value={mounted ? planningCount : "—"}
-          label="planning checks done"
-          pill={`${PLANNING_TOTAL} checklist items`}
-          pillTone="green"
-        />
-        <AreaCard
+          className="home-card flex-1 px-3 py-2.5 text-center font-medium text-[var(--ink)] transition-colors hover:text-[var(--accent)]"
+        >
+          Planning
+        </Link>
+        <Link
           href="/reservations"
-          iconColor="var(--food)"
-          icon={
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M5 7h14v12H5V7Z"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                strokeLinejoin="round"
-              />
-              <path d="M8 7V5h8v2" stroke="currentColor" strokeWidth="1.6" />
-              <path d="M8 12h8" stroke="currentColor" strokeWidth="1.6" />
-            </svg>
-          }
-          value={mounted ? count : "—"}
-          label="restaurant reservations"
-          pill="bookings & notes"
-          pillTone="orange"
-        />
-        <AreaCard
-          href="/map"
-          iconColor="var(--shopping)"
-          icon={
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M7 8h10l1 11H6L7 8Z"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M9 8V7a3 3 0 0 1 6 0v1"
-                stroke="currentColor"
-                strokeWidth="1.6"
-              />
-            </svg>
-          }
-          value={shoppingCount || lists.length}
-          label={shoppingCount ? "shopping & craft stops" : "saved Maps lists"}
-          pill={
-            shoppingCount
-              ? "shops · books · ceramics"
-              : `${lists.length} lists linked`
-          }
-          pillTone="pink"
-        />
-      </section>
-
-      <p className="mt-5 text-center text-[11px] leading-relaxed text-[var(--ink-muted)]">
-        Showing saved Maps spots in Tokyo, Osaka, Uji, Kyoto &amp; Kamakura.
-        Refresh with{" "}
-        <code className="rounded bg-white/80 px-1 py-0.5 text-[10px]">
-          pnpm sync:maps
-        </code>
-        {syncMeta?.lastSyncedAt
-          ? ` · last sync ${new Date(syncMeta.lastSyncedAt).toLocaleDateString()}`
-          : " · daily GitHub Action"}
-        .
-      </p>
+          className="home-card flex-1 px-3 py-2.5 text-center font-medium text-[var(--ink)] transition-colors hover:text-[var(--accent)]"
+        >
+          Reservations
+        </Link>
+        <Link
+          href="/itinerary"
+          className="home-card flex-1 px-3 py-2.5 text-center font-medium text-[var(--accent)]"
+        >
+          Itinerary
+        </Link>
+      </nav>
 
       <footer className="mt-auto pt-8 text-center">
         <p className="text-[12px] text-[var(--ink-muted)]">
@@ -244,55 +219,5 @@ export default function Home() {
         </p>
       </footer>
     </div>
-  );
-}
-
-function AreaCard({
-  href,
-  icon,
-  iconColor,
-  value,
-  label,
-  pill,
-  pillTone,
-}: {
-  href: string;
-  icon: ReactNode;
-  iconColor: string;
-  value: number | string;
-  label: string;
-  pill: string;
-  pillTone: "blue" | "green" | "orange" | "pink";
-}) {
-  const tones = {
-    blue: "bg-[rgba(46,41,235,0.1)] text-[var(--accent)]",
-    green: "bg-[rgba(47,158,111,0.12)] text-[var(--nature)]",
-    orange: "bg-[rgba(224,120,48,0.12)] text-[var(--food)]",
-    pink: "bg-[rgba(196,91,140,0.12)] text-[var(--shopping)]",
-  };
-
-  return (
-    <Link
-      href={href}
-      className="home-card flex aspect-square flex-col items-start justify-between p-4 transition-transform hover:-translate-y-0.5"
-    >
-      <span style={{ color: iconColor }}>{icon}</span>
-      <div>
-        <p
-          className="font-display text-[36px] leading-none text-[var(--ink)]"
-          style={{ fontVariantNumeric: "tabular-nums" }}
-        >
-          {value}
-        </p>
-        <p className="mt-1.5 text-[12px] leading-snug text-[var(--ink-muted)]">
-          {label}
-        </p>
-      </div>
-      <span
-        className={`rounded-full px-2.5 py-1 text-[10px] font-medium ${tones[pillTone]}`}
-      >
-        {pill}
-      </span>
-    </Link>
   );
 }

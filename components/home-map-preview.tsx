@@ -10,6 +10,7 @@ const TILE_URL = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png
 const TILE_ATTR =
   '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>';
 
+/** Decorative map — clicks pass through to a wrapping Link */
 export function HomeMapPreview() {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
@@ -39,6 +40,7 @@ export function HomeMapPreview() {
         fillColor: css,
         fillOpacity: 0.85,
         weight: 1,
+        interactive: false,
       }).addTo(map);
       bounds.push([p.lat, p.lng]);
     }
@@ -46,6 +48,13 @@ export function HomeMapPreview() {
       map.fitBounds(L.latLngBounds(bounds), { padding: [28, 28], maxZoom: 7 });
     }
     mapRef.current = map;
+
+    // Leaflet sets touch-action / captures pointer events — force pass-through
+    const el = containerRef.current;
+    el.style.pointerEvents = "none";
+    const pane = el.querySelector(".leaflet-container") as HTMLElement | null;
+    if (pane) pane.style.pointerEvents = "none";
+
     return () => {
       map.remove();
       mapRef.current = null;
@@ -55,7 +64,7 @@ export function HomeMapPreview() {
   return (
     <div
       ref={containerRef}
-      className="h-full w-full"
+      className="pointer-events-none h-full w-full"
       aria-hidden
       style={{ background: "#e8ebf3" }}
     />

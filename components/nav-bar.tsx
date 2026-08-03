@@ -5,13 +5,17 @@ import type { ReactNode } from "react";
 import { useReservations } from "@/lib/use-reservations";
 
 interface NavBarProps {
-  current?: "/" | "/map" | "/planning" | "/reservations";
+  current?: "/" | "/map" | "/planning" | "/reservations" | "/itinerary";
 }
 
 export function NavBar({ current }: NavBarProps) {
   const { count, mounted } = useReservations();
 
-  const link = (href: NonNullable<NavBarProps["current"]>, label: string, badge?: ReactNode) => (
+  const link = (
+    href: NonNullable<NavBarProps["current"]>,
+    label: string,
+    badge?: ReactNode,
+  ) => (
     <Link
       href={href}
       className={`font-medium transition-colors hover:text-[var(--accent)] ${
@@ -31,8 +35,9 @@ export function NavBar({ current }: NavBarProps) {
           <circle cx="18" cy="12" r="7.2" fill="#2E29EB" />
         </svg>
       </Link>
-      <div className="flex items-center gap-5 md:gap-10">
+      <div className="flex items-center gap-4 md:gap-8">
         {link("/map", "Map")}
+        {link("/itinerary", "Itinerary")}
         {link("/planning", "Planning")}
         {link(
           "/reservations",
