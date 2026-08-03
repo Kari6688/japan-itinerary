@@ -18,7 +18,7 @@ export function ListFilters({ active, onChange }: ListFiltersProps) {
     ...lists.map((l) => ({
       key: l.id,
       label: `${shortListName(l.name)} · ${l.count}`,
-      color: l.id === "food" ? "var(--food)" : "var(--accent)",
+      color: listColor(l.id, l.name),
     })),
   ];
 
@@ -57,9 +57,24 @@ export function ListFilters({ active, onChange }: ListFiltersProps) {
 }
 
 function shortListName(name: string) {
-  if (name.toLowerCase().includes("food")) return "食 Food";
-  if (name.toLowerCase().includes("temple") || name.toLowerCase().includes("museum")) {
-    return "文 Culture";
-  }
-  return name;
+  const n = name.toLowerCase();
+  if (n.includes("temple") || n.includes("museum")) return "文 Culture";
+  if (n.includes("dessert")) return "甜 Desserts";
+  if (n.includes("matcha")) return "茶 Matcha";
+  if (n.includes("bookstore") || n.includes("book")) return "本 Books";
+  if (n.includes("ceramic")) return "焼 Ceramics";
+  if (n.includes("shopping") || n.includes("shop")) return "買 Shopping";
+  if (n.includes("bar")) return "酒 Bars";
+  if (n.includes("cafe")) return "咖 Cafe";
+  if (n.includes("food")) return "食 Food";
+  return name.replace(/\s*-?\s*jp$/i, "").trim() || name;
+}
+
+function listColor(id: string, name: string) {
+  const n = `${id} ${name}`.toLowerCase();
+  if (/food|dessert|bar/.test(n)) return "var(--food)";
+  if (/cafe|matcha/.test(n)) return "var(--cafe)";
+  if (/shop|book|ceramic/.test(n)) return "var(--shopping)";
+  if (/culture|temple|museum/.test(n)) return "var(--accent)";
+  return "var(--accent)";
 }

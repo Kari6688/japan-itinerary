@@ -71,6 +71,7 @@
   --culture: #2e29eb;
   --nature: #2f9e6f;
   --cafe: #c9a227;
+  --shopping: #c45b8c;
   --shadow-soft: 0 12px 40px rgba(22, 22, 42, 0.06);
 
   /* legacy aliases remapped for light theme */
@@ -202,4 +203,11 @@
 .font-display {
   font-family: var(--font-display);
   font-weight: 800;
+}
+
+.home-card {
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
 }

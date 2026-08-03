@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# maps sync scratch
+data/.scrape-cache.json
+data/places.json.partial

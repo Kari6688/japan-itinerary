@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "sync:maps": "node scripts/sync-maps.mjs",
+    "scrape:maps": "node scripts/scrape-maps-lists.mjs",
+    "geocode:maps": "node scripts/geocode-places.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",
@@ -27,6 +30,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.12",
+    "puppeteer-core": "^25.4.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   },

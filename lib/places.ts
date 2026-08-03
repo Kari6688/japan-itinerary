@@ -1,12 +1,20 @@
 import placesData from "@/data/places.json";
+import listsData from "@/data/lists.json";
 import type { Place } from "@/lib/types";
 
 export const places = placesData as Place[];
 
 export type ListFilter = "all" | string;
 
+const listOrder = new Map(
+  (listsData as { id: string }[]).map((l, i) => [l.id, i]),
+);
+
 export function getSourceLists(list: Place[] = places) {
-  const map = new Map<string, { id: string; name: string; url: string; count: number }>();
+  const map = new Map<
+    string,
+    { id: string; name: string; url: string; count: number }
+  >();
   for (const p of list) {
     const existing = map.get(p.sourceList);
     if (existing) existing.count += 1;
@@ -19,7 +27,11 @@ export function getSourceLists(list: Place[] = places) {
       });
     }
   }
-  return [...map.values()];
+  return [...map.values()].sort((a, b) => {
+    const ai = listOrder.get(a.id) ?? 999;
+    const bi = listOrder.get(b.id) ?? 999;
+    return ai - bi || a.name.localeCompare(b.name);
+  });
 }
 
 export function filterByList(list: Place[], filter: ListFilter) {

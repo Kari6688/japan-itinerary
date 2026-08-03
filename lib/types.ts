@@ -4,7 +4,8 @@ export type PlaceCategory =
   | "museum"
   | "nature"
   | "cafe"
-  | "culture";
+  | "culture"
+  | "shopping";
 
 export interface Place {
   id: string;
@@ -37,4 +38,5 @@ export const CATEGORY_CONFIG: Record<
   nature: { label: "Nature", color: "var(--nature)", css: "#2F9E6F" },
   cafe: { label: "Cafe", color: "var(--cafe)", css: "#C9A227" },
   culture: { label: "Culture", color: "var(--accent)", css: "#2E29EB" },
+  shopping: { label: "Shopping", color: "var(--shopping)", css: "#C45B8C" },
 };

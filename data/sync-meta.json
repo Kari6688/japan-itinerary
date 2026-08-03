@@ -1,0 +1,10 @@
+{
+  "lastSyncedAt": null,
+  "totalPlaces": 99,
+  "withCoordinates": 95,
+  "byList": {
+    "culture": 15,
+    "food": 84
+  },
+  "note": "Google Maps has no push API for saved lists. Re-run pnpm sync:maps (or the GitHub Action) after adding spots."
+}
