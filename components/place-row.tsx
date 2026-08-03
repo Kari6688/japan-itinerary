@@ -54,23 +54,21 @@ export function PlaceRow({
       }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      className={`flex w-full cursor-pointer items-center gap-3 border-b border-[var(--keshizumi)]/50 px-4 text-left transition-all duration-300 ease-in-out ${
-        selected ? "bg-[var(--sumi)]" : "hover:bg-[var(--sumi)]/60"
+      className={`flex w-full cursor-pointer items-center gap-3 border-b border-[var(--line)] px-4 text-left transition-all duration-300 ease-in-out ${
+        selected ? "bg-[var(--accent-soft)]" : "hover:bg-[var(--sumi)]"
       }`}
-      style={{ opacity: checked ? 0.25 : 1, paddingTop: 16, paddingBottom: 16 }}
+      style={{ opacity: checked ? 0.35 : 1, paddingTop: 16, paddingBottom: 16 }}
     >
       <div className="w-0.5 shrink-0 self-stretch" style={{ backgroundColor: cat.css }} />
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
-          <span className="font-pixel truncate text-[14px] font-medium text-[var(--shironeri)]">
-            {place.name}
-          </span>
-          <span className="shrink-0 border border-[var(--keshizumi)] px-1 font-mono text-[10px] text-[var(--sunezumi)]">
+          <span className="truncate text-[14px] font-medium text-[var(--ink)]">{place.name}</span>
+          <span className="shrink-0 border border-[var(--line)] px-1 text-[10px] text-[var(--ink-muted)]">
             {cat.label.split(" / ")[0]}
           </span>
         </div>
         {meta ? (
-          <p className="mt-0.5 truncate font-mono text-[12px] text-[var(--sunezumi)]">{meta}</p>
+          <p className="mt-0.5 truncate text-[12px] text-[var(--ink-muted)]">{meta}</p>
         ) : null}
       </div>
       <div className="flex shrink-0 items-center gap-4 sm:gap-6">

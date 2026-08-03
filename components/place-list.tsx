@@ -39,14 +39,14 @@ export function PlaceList({
 
   if (grouped.length === 0) {
     return (
-      <div className="px-4 py-16 text-center font-mono text-[12px] text-[var(--sunezumi)]">
-        {onlyStarred ? "No saved places yet. Star spots from the map." : "No places in this list."}
+      <div className="px-4 py-16 text-center text-[13px] text-[var(--ink-muted)]">
+        {onlyStarred ? "No saved places yet." : "No places in this list."}
       </div>
     );
   }
 
   return (
-    <div className="flex-1 overflow-y-auto">
+    <div className="flex-1 overflow-y-auto bg-[var(--surface)]">
       {grouped.map(([neighbourhood, items]) => {
         const sorted = [...items].sort((a, b) => {
           const ac = isChecked(a.id) ? 1 : 0;
@@ -56,14 +56,14 @@ export function PlaceList({
         return (
           <section key={neighbourhood}>
             <div
-              className="border-b border-[var(--keshizumi)]/50 bg-[var(--ro)] px-4"
+              className="border-b border-[var(--line)] bg-[var(--paper)] px-4"
               style={{ paddingTop: 20, paddingBottom: 12 }}
             >
-              <span className="font-mono text-[12px] uppercase tracking-wider text-[var(--kuchiba)]">
+              <span className="font-display text-[15px] text-[var(--accent)]">
                 {neighbourhood}
               </span>
               <span
-                className="ml-2 font-mono text-[12px] text-[var(--keshizumi)]"
+                className="ml-2 text-[12px] text-[var(--ink-muted)]"
                 style={{ fontVariantNumeric: "tabular-nums" }}
               >
                 {items.length}

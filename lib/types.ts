@@ -31,10 +31,10 @@ export const CATEGORY_CONFIG: Record<
   PlaceCategory,
   { label: string; color: string; css: string }
 > = {
-  food: { label: "Food", color: "var(--kuchiba)", css: "#E2943B" },
-  temple: { label: "Temple / Shrine", color: "var(--kurenai)", css: "#CB1B45" },
-  museum: { label: "Museum / Gallery", color: "var(--fuji)", css: "#8B81C3" },
-  nature: { label: "Nature", color: "var(--wakatake)", css: "#5DAC81" },
-  cafe: { label: "Cafe", color: "var(--yamabuki)", css: "#FFB11B" },
-  culture: { label: "Culture", color: "var(--fuji)", css: "#8B81C3" },
+  food: { label: "Food", color: "var(--food)", css: "#E07830" },
+  temple: { label: "Temple / Shrine", color: "var(--accent)", css: "#2E29EB" },
+  museum: { label: "Museum / Gallery", color: "var(--fuji)", css: "#5B57F0" },
+  nature: { label: "Nature", color: "var(--nature)", css: "#2F9E6F" },
+  cafe: { label: "Cafe", color: "var(--cafe)", css: "#C9A227" },
+  culture: { label: "Culture", color: "var(--accent)", css: "#2E29EB" },
 };

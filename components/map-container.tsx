@@ -16,7 +16,7 @@ interface MapContainerProps {
   starredIds?: Set<string>;
 }
 
-const TILE_URL = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png";
+const TILE_URL = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
 const TILE_ATTR =
   '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>';
 const CENTER: L.LatLngExpression = [35.68, 139.76];
@@ -177,7 +177,7 @@ export default function MapContainer({
   return (
     <div
       ref={containerRef}
-      className="sticky top-[48px] z-40 h-[35vh] w-full border-b border-[var(--keshizumi)] sm:h-[364px]"
+      className="sticky top-[48px] z-40 h-[35vh] w-full border-b border-[var(--line)] sm:h-[364px]"
     />
   );
 }

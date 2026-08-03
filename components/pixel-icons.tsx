@@ -1,7 +1,6 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-// pixel icon buttons
 
 const STAR_PIXELS = [
   [7, 0], [8, 0], [7, 1], [8, 1], [7, 2], [8, 2],
@@ -36,7 +35,7 @@ export function PixelStar({
         e.stopPropagation();
         onClick();
       }}
-      className="group flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center transition-colors hover:bg-white/[0.08]"
+      className="group flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center transition-colors hover:bg-[var(--accent-soft)]"
       aria-label={filled ? "Remove from saved" : "Add to saved"}
     >
       <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
@@ -48,9 +47,9 @@ export function PixelStar({
             width={1}
             height={1}
             className={cn(
-              !filled && "fill-[var(--keshizumi)] transition-colors group-hover:fill-[var(--yamabuki)]",
+              !filled && "fill-[#C5CAD8] transition-colors group-hover:fill-[var(--accent)]",
             )}
-            fill={filled ? "var(--yamabuki)" : undefined}
+            fill={filled ? "var(--accent)" : undefined}
           />
         ))}
       </svg>
@@ -80,7 +79,7 @@ export function PixelCheck({
         e.stopPropagation();
         onClick();
       }}
-      className="group flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center transition-colors hover:bg-white/[0.08]"
+      className="group flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center transition-colors hover:bg-[var(--accent-soft)]"
       aria-label={filled ? "Mark unvisited" : "Mark visited"}
     >
       <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
@@ -92,9 +91,9 @@ export function PixelCheck({
             width={1}
             height={1}
             className={cn(
-              !filled && "fill-[var(--keshizumi)] transition-colors group-hover:fill-[var(--shironeri)]",
+              !filled && "fill-[#C5CAD8] transition-colors group-hover:fill-[var(--accent)]",
             )}
-            fill={filled ? "var(--shironeri)" : undefined}
+            fill={filled ? "var(--accent)" : undefined}
           />
         ))}
       </svg>

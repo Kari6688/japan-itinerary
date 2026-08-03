@@ -66,32 +66,32 @@ export default function PlanningPage() {
   const done = mounted ? [...checked].filter((id) => id.startsWith("plan:")).length : 0;
 
   return (
-    <div className="flex min-h-dvh flex-col bg-[var(--ro)]">
+    <div className="flex min-h-dvh flex-col bg-[var(--paper)]">
       <NavBar current="/planning" />
       <main className="mx-auto w-full max-w-[640px] flex-1 px-4 py-8">
-        <h1 className="font-pixel text-[18px] text-[var(--shironeri)]">Planning</h1>
-        <p className="mt-1 font-mono text-[12px] text-[var(--sunezumi)]">
+        <h1 className="font-display text-3xl text-[var(--ink)]">Planning</h1>
+        <p className="mt-2 text-[14px] text-[var(--ink-muted)]">
           {mounted ? `${done} / ${total} done` : "…"}
         </p>
 
         <div className="mt-8 space-y-8">
           {SECTIONS.map((section) => (
             <section key={section.title}>
-              <h2 className="mb-3 font-mono text-[12px] uppercase tracking-wider text-[var(--kuchiba)]">
+              <h2 className="mb-3 font-display text-[16px] text-[var(--accent)]">
                 {section.title}
               </h2>
-              <ul className="border border-[var(--keshizumi)]/60">
+              <ul className="border border-[var(--line)] bg-[var(--surface)]">
                 {section.items.map((item) => {
                   const id = `plan:${section.title}:${item}`;
                   const isOn = checked.has(id);
                   return (
                     <li
                       key={id}
-                      className="flex items-center gap-3 border-b border-[var(--keshizumi)]/50 px-3 last:border-b-0"
-                      style={{ opacity: isOn ? 0.35 : 1 }}
+                      className="flex items-center gap-3 border-b border-[var(--line)] px-3 last:border-b-0"
+                      style={{ opacity: isOn ? 0.4 : 1 }}
                     >
                       <PixelCheck filled={isOn} onClick={() => toggle(id)} />
-                      <span className="py-3 text-[14px] text-[var(--shironeri)]">{item}</span>
+                      <span className="py-3 text-[14px] text-[var(--ink)]">{item}</span>
                     </li>
                   );
                 })}

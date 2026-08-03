@@ -30,9 +30,9 @@ export function PlaceCard({ place, starred, onToggleStar, onClose }: PlaceCardPr
   return (
     <div className="pointer-events-none fixed inset-0 z-50">
       <div
-        className="pointer-events-auto absolute bottom-5 left-4 right-4 mx-auto max-w-[760px] border border-[var(--keshizumi)] bg-[var(--sumi)] sm:left-5 sm:right-5"
+        className="pointer-events-auto absolute bottom-5 left-4 right-4 mx-auto max-w-[760px] border border-[var(--line)] bg-[var(--surface)] sm:left-5 sm:right-5"
         style={{
-          boxShadow: "4px 4px 0px rgba(0,0,0,0.5)",
+          boxShadow: "4px 4px 0px rgba(46,41,235,0.15)",
           opacity: visible ? 1 : 0,
           transform: visible ? "translateY(0)" : "translateY(20px)",
           transition: "opacity 200ms ease-out, transform 200ms ease-out",
@@ -43,11 +43,11 @@ export function PlaceCard({ place, starred, onToggleStar, onClose }: PlaceCardPr
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
                 <div className="h-4 w-0.5 shrink-0" style={{ backgroundColor: cat.css }} />
-                <h3 className="font-pixel truncate text-[16px] font-medium text-[var(--shironeri)]">
+                <h3 className="font-display truncate text-[20px] text-[var(--ink)]">
                   {place.name}
                 </h3>
               </div>
-              <p className="ml-1.5 mt-0.5 font-mono text-[12px] text-[var(--sunezumi)]">
+              <p className="ml-1.5 mt-0.5 text-[12px] text-[var(--ink-muted)]">
                 {place.neighbourhood}
                 {place.city !== "Japan" ? `, ${place.city}` : ""}
                 {place.subtype ? ` · ${place.subtype}` : ""}
@@ -58,17 +58,14 @@ export function PlaceCard({ place, starred, onToggleStar, onClose }: PlaceCardPr
               <button
                 type="button"
                 onClick={dismiss}
-                className="flex h-7 w-7 cursor-pointer items-center justify-center font-pixel text-[18px] leading-none text-[var(--sunezumi)] transition-colors hover:bg-white/[0.08] hover:text-[var(--shironeri)]"
+                className="flex h-7 w-7 cursor-pointer items-center justify-center text-[16px] leading-none text-[var(--ink-muted)] transition-colors hover:bg-[var(--accent-soft)] hover:text-[var(--accent)]"
               >
                 X
               </button>
             </div>
           </div>
 
-          <div
-            className="mb-3 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[12px] text-[var(--sunezumi)]"
-            style={{ fontVariantNumeric: "tabular-nums" }}
-          >
+          <div className="mb-3 flex flex-wrap gap-x-4 gap-y-1 text-[12px] text-[var(--ink-muted)]">
             <span style={{ color: cat.css }}>{cat.label}</span>
             {place.price ? <span>{place.price}</span> : null}
             {formatRating(place.rating, place.reviewCount) ? (
@@ -78,20 +75,20 @@ export function PlaceCard({ place, starred, onToggleStar, onClose }: PlaceCardPr
           </div>
 
           {place.address ? (
-            <p className="mb-3 text-[13px] leading-relaxed text-white/80">{place.address}</p>
+            <p className="mb-3 text-[13px] leading-relaxed text-[var(--ink)]/80">{place.address}</p>
           ) : null}
 
           <div className="flex items-center justify-between">
-            <span className="border border-[var(--keshizumi)] px-1.5 py-0.5 font-mono text-[11px] text-[var(--sunezumi)]">
+            <span className="border border-[var(--line)] px-1.5 py-0.5 text-[11px] text-[var(--ink-muted)]">
               {place.sourceListName}
             </span>
             <a
               href={mapsHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-7 items-center gap-1 px-3 font-pixel text-[14px] text-[var(--ginnezumi)] transition-colors hover:bg-white/[0.08] hover:text-[var(--shironeri)]"
+              className="inline-flex h-7 items-center gap-1 px-3 text-[14px] font-medium text-[var(--accent)] transition-colors hover:bg-[var(--accent-soft)]"
             >
-              Map <span className="text-[14px] leading-none">↗</span>
+              Google Maps <span className="leading-none">↗</span>
             </a>
           </div>
         </div>

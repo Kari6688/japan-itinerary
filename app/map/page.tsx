@@ -15,8 +15,8 @@ import type { Place } from "@/lib/types";
 const MapContainer = dynamic(() => import("@/components/map-container"), {
   ssr: false,
   loading: () => (
-    <div className="flex h-[35vh] w-full items-center justify-center border-b border-[var(--keshizumi)] bg-[var(--ro)] sm:h-[364px]">
-      <span className="font-mono text-[12px] text-[var(--keshizumi)]">loading map…</span>
+    <div className="flex h-[35vh] w-full items-center justify-center border-b border-[var(--line)] bg-[var(--paper)] sm:h-[364px]">
+      <span className="text-[12px] text-[var(--ink-muted)]">loading map…</span>
     </div>
   ),
 });
@@ -28,21 +28,15 @@ export default function MapPage() {
   const { toggle, isStarred } = useStarred();
   const { toggle: toggleCheck, isChecked } = useChecked();
 
-  const handleSelect = useCallback((place: Place) => {
-    setSelected(place);
-  }, []);
-
-  const handleDeselect = useCallback(() => {
-    setSelected(null);
-  }, []);
-
+  const handleSelect = useCallback((place: Place) => setSelected(place), []);
+  const handleDeselect = useCallback(() => setSelected(null), []);
   const handleFilterChange = useCallback((f: ListFilter) => {
     setFilter(f);
     setSelected(null);
   }, []);
 
   return (
-    <div className="flex min-h-dvh flex-col bg-[var(--ro)]">
+    <div className="flex min-h-dvh flex-col bg-[var(--paper)]">
       <NavBar current="/map" />
       <MapContainer
         filter={filter}
