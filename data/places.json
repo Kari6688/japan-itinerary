@@ -613,8 +613,8 @@
     "mapsUrl": "https://www.google.com/maps/place/HIRO+NAGOYA/@35.183781,136.8956168,17z/data=!3m1!4b1!4m6!3m5!1s0x600376c91e103d4f:0x8c10a7b96b4fb11f!8m2!3d35.183781!4d136.8956168!16s%2Fg%2F11cm0kk2g3?entry=ttu",
     "lat": 35.183781,
     "lng": 136.8956168,
-    "neighbourhood": "Japan",
-    "city": "Japan",
+    "neighbourhood": "Nagoya",
+    "city": "Nagoya",
     "address": "Japan, 〒451-0034 Aichi, Nagoya, Nishi Ward, Hinokuchicho, 2−17 シャトー西の丸 2F ",
     "notes": null,
     "priority": "normal"
@@ -793,8 +793,8 @@
     "mapsUrl": "https://www.google.com/maps/place/Matsubara-an/@35.3113836,139.541,17z/data=!3m1!4b1!4m6!3m5!1s0x601845ef76bfd7a3:0xda4414ca434e4e18!8m2!3d35.3113836!4d139.541!16s%2Fg%2F1tdd9th5?entry=ttu",
     "lat": 35.3113836,
     "lng": 139.541,
-    "neighbourhood": "Japan",
-    "city": "Japan",
+    "neighbourhood": "Kamakura",
+    "city": "Kamakura",
     "address": "4 Chome-10-3 Yuigahama, Kamakura, Kanagawa 248-0014, Japan ",
     "notes": null,
     "priority": "normal"
@@ -1013,8 +1013,8 @@
     "mapsUrl": "https://www.google.com/maps/place/Yakitori+Restaurant+Daimyo+Hete/@33.5866845,130.393571,17z/data=!3m1!4b1!4m6!3m5!1s0x35419186ddf36a1f:0x22793ab16a9163fd!8m2!3d33.5866845!4d130.393571!16s%2Fg%2F11bcclyyng?entry=ttu",
     "lat": 33.5866845,
     "lng": 130.393571,
-    "neighbourhood": "Japan",
-    "city": "Japan",
+    "neighbourhood": "Fukuoka",
+    "city": "Fukuoka",
     "address": "Japan, 〒810-0041 Fukuoka, Chuo Ward, Daimyo, 1 Chome−10−6 サンセーヌ大名 1F ",
     "notes": null,
     "priority": "normal"
@@ -1033,8 +1033,8 @@
     "mapsUrl": "https://www.google.com/maps/place/Sushi+Yoneshima/@33.5835821,130.4006926,17z/data=!3m1!4b1!4m6!3m5!1s0x3541912d9c1c830b:0xadaab597ecfc9a90!8m2!3d33.5835821!4d130.4006926!16s%2Fg%2F11qrc84bkf?entry=ttu",
     "lat": 33.5835821,
     "lng": 130.4006926,
-    "neighbourhood": "Japan",
-    "city": "Japan",
+    "neighbourhood": "Fukuoka",
+    "city": "Fukuoka",
     "address": "Japan, 〒810-0022 Fukuoka, Chuo Ward, Yakuin, 1 Chome−16−5 松井ビル 1階 ",
     "notes": null,
     "priority": "normal"
