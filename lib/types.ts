@@ -27,14 +27,14 @@ export interface Place {
   priority: string;
 }
 
-export const CATEGORY_META: Record<
+export const CATEGORY_CONFIG: Record<
   PlaceCategory,
-  { label: string; color: string; soft: string }
+  { label: string; color: string; css: string }
 > = {
-  food: { label: "Food", color: "#c45c26", soft: "rgba(196, 92, 38, 0.12)" },
-  temple: { label: "Temple / Shrine", color: "#1f4b7a", soft: "rgba(31, 75, 122, 0.12)" },
-  museum: { label: "Museum / Gallery", color: "#0f6b5c", soft: "rgba(15, 107, 92, 0.12)" },
-  nature: { label: "Nature", color: "#3d6b3a", soft: "rgba(61, 107, 58, 0.12)" },
-  cafe: { label: "Cafe", color: "#8a5a2b", soft: "rgba(138, 90, 43, 0.12)" },
-  culture: { label: "Culture", color: "#3d4f66", soft: "rgba(61, 79, 102, 0.12)" },
+  food: { label: "Food", color: "var(--kuchiba)", css: "#E2943B" },
+  temple: { label: "Temple / Shrine", color: "var(--kurenai)", css: "#CB1B45" },
+  museum: { label: "Museum / Gallery", color: "var(--fuji)", css: "#8B81C3" },
+  nature: { label: "Nature", color: "var(--wakatake)", css: "#5DAC81" },
+  cafe: { label: "Cafe", color: "var(--yamabuki)", css: "#FFB11B" },
+  culture: { label: "Culture", color: "var(--fuji)", css: "#8B81C3" },
 };
