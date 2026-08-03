@@ -3,8 +3,9 @@
 import { useEffect, useRef } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { listColorForPlace } from "@/lib/list-colors";
 import { filterByList, mappablePlaces, places, type ListFilter } from "@/lib/places";
-import { CATEGORY_CONFIG, type Place } from "@/lib/types";
+import type { Place } from "@/lib/types";
 
 interface MapContainerProps {
   filter: ListFilter;
@@ -23,7 +24,7 @@ const CENTER: L.LatLngExpression = [35.68, 139.76];
 
 function markerIcon(place: Place, selected: boolean, pulse: boolean): L.DivIcon {
   const size = selected ? 12 : 8;
-  const css = CATEGORY_CONFIG[place.category]?.css ?? "#91989F";
+  const css = listColorForPlace(place).css;
   const pulseHtml = pulse
     ? `<div class="radar-pulse" style="--pulse-color:${css}"></div><div class="radar-pulse" style="--pulse-color:${css};animation-delay:1s"></div>`
     : "";

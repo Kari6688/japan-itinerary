@@ -14,10 +14,9 @@ export function NavBar({ current }: NavBarProps) {
   const link = (href: NonNullable<NavBarProps["current"]>, label: string, badge?: ReactNode) => (
     <Link
       href={href}
-      className={`transition-colors hover:text-[var(--accent)] ${
+      className={`font-medium transition-colors hover:text-[var(--accent)] ${
         current === href ? "text-[var(--accent)]" : "text-[var(--ink-muted)]"
       }`}
-      style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
     >
       {label}
       {badge}

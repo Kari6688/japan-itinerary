@@ -3,8 +3,8 @@
 import { useEffect, useRef } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { listColorForPlace } from "@/lib/list-colors";
 import { mappablePlaces, places } from "@/lib/places";
-import { CATEGORY_CONFIG } from "@/lib/types";
 
 const TILE_URL = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
 const TILE_ATTR =
@@ -32,7 +32,7 @@ export function HomeMapPreview() {
 
     const bounds: L.LatLngExpression[] = [];
     for (const p of pts.slice(0, 120)) {
-      const css = CATEGORY_CONFIG[p.category]?.css ?? "#91989F";
+      const css = listColorForPlace(p).css;
       L.circleMarker([p.lat, p.lng], {
         radius: 3.5,
         color: css,

@@ -3,8 +3,8 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useEffect, useState, type ReactNode } from "react";
+import { listColorForPlace } from "@/lib/list-colors";
 import { getSourceLists, mappablePlaces, places } from "@/lib/places";
-import { CATEGORY_CONFIG } from "@/lib/types";
 import { useReservations } from "@/lib/use-reservations";
 import syncMeta from "@/data/sync-meta.json";
 
@@ -85,7 +85,6 @@ export default function Home() {
           style={{
             background:
               "linear-gradient(145deg, #2E29EB 0%, #5B57F0 55%, #C45B8C 100%)",
-            fontFamily: "var(--font-display)",
             fontWeight: 800,
             fontSize: 22,
           }}
@@ -114,7 +113,7 @@ export default function Home() {
             const rot = i === 0 ? -8 : i === 1 ? 0 : 8;
             const x = i === 0 ? -42 : i === 1 ? 0 : 42;
             const z = i === 1 ? 3 : 1;
-            const css = CATEGORY_CONFIG[p.category]?.css ?? "#2E29EB";
+            const css = listColorForPlace(p).css;
             return (
               <div
                 key={p.id}

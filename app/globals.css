@@ -74,6 +74,17 @@
   --shopping: #c45b8c;
   --shadow-soft: 0 12px 40px rgba(22, 22, 42, 0.06);
 
+  /* one colour per Maps list */
+  --list-culture: #2e29eb;
+  --list-food: #e07830;
+  --list-desserts: #e0457b;
+  --list-bars: #7b3fa0;
+  --list-shopping: #c45b8c;
+  --list-matcha: #2f9e6f;
+  --list-books: #8b5e3c;
+  --list-ceramics: #c46a3a;
+  --list-cafe: #c9a227;
+
   /* legacy aliases remapped for light theme */
   --ro: var(--paper);
   --sumi: #eef0f6;
@@ -96,8 +107,9 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-border: var(--border);
-  --font-sans: "Neue Haas Grotesk", "Neue Haas Grotesk Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-display: "PP Kyoto", Georgia, "Times New Roman", serif;
+  /* Single typeface everywhere */
+  --font-sans: "PP Kyoto", "Hiragino Sans", "Noto Sans JP", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-display: var(--font-sans);
 }
 
 @layer base {
@@ -116,7 +128,7 @@
     font-family: var(--font-sans);
   }
   h1, h2, h3, h4, .font-display {
-    font-family: var(--font-display);
+    font-family: var(--font-sans);
     font-weight: 800;
     letter-spacing: -0.02em;
   }
@@ -201,7 +213,7 @@
 
 .font-pixel,
 .font-display {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-weight: 800;
 }
 

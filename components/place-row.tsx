@@ -1,6 +1,7 @@
 "use client";
 
-import { CATEGORY_CONFIG, type Place } from "@/lib/types";
+import { listColorForPlace } from "@/lib/list-colors";
+import type { Place } from "@/lib/types";
 import { formatRating } from "@/lib/utils";
 import { PixelCheck, PixelStar } from "@/components/pixel-icons";
 
@@ -27,7 +28,7 @@ export function PlaceRow({
   onMouseEnter,
   onMouseLeave,
 }: PlaceRowProps) {
-  const cat = CATEGORY_CONFIG[place.category];
+  const list = listColorForPlace(place);
   const meta = [
     place.subtype,
     place.price,
@@ -54,17 +55,23 @@ export function PlaceRow({
       }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      className={`flex w-full cursor-pointer items-center gap-3 border-b border-[var(--line)] px-4 text-left transition-all duration-300 ease-in-out ${
-        selected ? "bg-[var(--accent-soft)]" : "hover:bg-[var(--sumi)]"
-      }`}
-      style={{ opacity: checked ? 0.35 : 1, paddingTop: 16, paddingBottom: 16 }}
+      className="flex w-full cursor-pointer items-center gap-3 border-b border-[var(--line)] px-4 text-left transition-all duration-300 ease-in-out hover:bg-[var(--sumi)]"
+      style={{
+        opacity: checked ? 0.35 : 1,
+        paddingTop: 16,
+        paddingBottom: 16,
+        backgroundColor: selected ? list.soft : undefined,
+      }}
     >
-      <div className="w-0.5 shrink-0 self-stretch" style={{ backgroundColor: cat.css }} />
+      <div className="w-0.5 shrink-0 self-stretch" style={{ backgroundColor: list.css }} />
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
           <span className="truncate text-[14px] font-medium text-[var(--ink)]">{place.name}</span>
-          <span className="shrink-0 border border-[var(--line)] px-1 text-[10px] text-[var(--ink-muted)]">
-            {cat.label.split(" / ")[0]}
+          <span
+            className="shrink-0 border px-1 text-[10px]"
+            style={{ borderColor: list.css, color: list.css, backgroundColor: list.soft }}
+          >
+            {list.label}
           </span>
         </div>
         {meta ? (

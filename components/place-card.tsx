@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CATEGORY_CONFIG, type Place } from "@/lib/types";
+import { listColorForPlace } from "@/lib/list-colors";
+import type { Place } from "@/lib/types";
 import { formatRating, getMapsUrl } from "@/lib/utils";
 import { PixelStar } from "@/components/pixel-icons";
 
@@ -13,7 +14,7 @@ interface PlaceCardProps {
 }
 
 export function PlaceCard({ place, starred, onToggleStar, onClose }: PlaceCardProps) {
-  const cat = CATEGORY_CONFIG[place.category];
+  const list = listColorForPlace(place);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -42,7 +43,7 @@ export function PlaceCard({ place, starred, onToggleStar, onClose }: PlaceCardPr
           <div className="mb-2 flex items-start justify-between gap-2">
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
-                <div className="h-4 w-0.5 shrink-0" style={{ backgroundColor: cat.css }} />
+                <div className="h-4 w-0.5 shrink-0" style={{ backgroundColor: list.css }} />
                 <h3 className="font-display truncate text-[20px] text-[var(--ink)]">
                   {place.name}
                 </h3>
@@ -58,7 +59,16 @@ export function PlaceCard({ place, starred, onToggleStar, onClose }: PlaceCardPr
               <button
                 type="button"
                 onClick={dismiss}
-                className="flex h-7 w-7 cursor-pointer items-center justify-center text-[16px] leading-none text-[var(--ink-muted)] transition-colors hover:bg-[var(--accent-soft)] hover:text-[var(--accent)]"
+                className="flex h-7 w-7 cursor-pointer items-center justify-center text-[16px] leading-none text-[var(--ink-muted)] transition-colors hover:opacity-80"
+                style={{ color: undefined }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = list.soft;
+                  e.currentTarget.style.color = list.css;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "";
+                  e.currentTarget.style.color = "";
+                }}
               >
                 X
               </button>
@@ -66,7 +76,7 @@ export function PlaceCard({ place, starred, onToggleStar, onClose }: PlaceCardPr
           </div>
 
           <div className="mb-3 flex flex-wrap gap-x-4 gap-y-1 text-[12px] text-[var(--ink-muted)]">
-            <span style={{ color: cat.css }}>{cat.label}</span>
+            <span style={{ color: list.css }}>{list.label}</span>
             {place.price ? <span>{place.price}</span> : null}
             {formatRating(place.rating, place.reviewCount) ? (
               <span>★ {formatRating(place.rating, place.reviewCount)}</span>
@@ -79,14 +89,24 @@ export function PlaceCard({ place, starred, onToggleStar, onClose }: PlaceCardPr
           ) : null}
 
           <div className="flex items-center justify-between">
-            <span className="border border-[var(--line)] px-1.5 py-0.5 text-[11px] text-[var(--ink-muted)]">
+            <span
+              className="border px-1.5 py-0.5 text-[11px]"
+              style={{ borderColor: list.css, color: list.css, backgroundColor: list.soft }}
+            >
               {place.sourceListName}
             </span>
             <a
               href={mapsHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-7 items-center gap-1 px-3 text-[14px] font-medium text-[var(--accent)] transition-colors hover:bg-[var(--accent-soft)]"
+              className="inline-flex h-7 items-center gap-1 px-3 text-[14px] font-medium transition-colors"
+              style={{ color: list.css }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = list.soft;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "";
+              }}
             >
               Google Maps <span className="leading-none">↗</span>
             </a>
