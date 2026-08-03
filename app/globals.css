@@ -1,14 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --paper: #f3f1ec;
-  --mist: #e4e9ef;
-  --ink: #1a1f2b;
-  --ink-muted: #5c6678;
-  --line: #d5dbe4;
-  --accent: #c45c26;
-  --accent-soft: rgba(196, 92, 38, 0.14);
-  --shadow-soft: 0 18px 50px rgba(26, 31, 43, 0.08);
+  --paper: #edf1f5;
+  --mist: #dde5ee;
+  --ink: #152033;
+  --ink-muted: #5a6678;
+  --line: #cdd6e1;
+  --accent: #b33b2c;
+  --accent-soft: rgba(179, 59, 44, 0.14);
+  --shadow-soft: 0 18px 50px rgba(21, 32, 51, 0.08);
   --hero-progress: 0;
   --background: var(--paper);
   --foreground: var(--ink);
@@ -31,9 +31,9 @@ html {
 
 body {
   background:
-    radial-gradient(1200px 600px at 10% -10%, #dfe7f2 0%, transparent 55%),
-    radial-gradient(900px 500px at 100% 0%, #f0e6dc 0%, transparent 45%),
-    linear-gradient(180deg, #eef1f5 0%, var(--paper) 40%, #ebe7e0 100%);
+    radial-gradient(1200px 600px at 8% -10%, #d5e0ec 0%, transparent 55%),
+    radial-gradient(900px 500px at 100% 5%, #d9e6e2 0%, transparent 45%),
+    linear-gradient(180deg, #e7eef5 0%, var(--paper) 42%, #e4ebe8 100%);
   color: var(--ink);
   font-family: var(--font-sans), system-ui, sans-serif;
   min-height: 100vh;
