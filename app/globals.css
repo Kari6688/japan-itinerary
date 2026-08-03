@@ -1,0 +1,252 @@
+@import "tailwindcss";
+
+/* PP Kyoto — headers & titles */
+@font-face {
+  font-family: "PP Kyoto";
+  src: url("/fonts/PPKyoto-Thin.otf") format("opentype");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "PP Kyoto";
+  src: url("/fonts/PPKyoto-ThinItalic.otf") format("opentype");
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "PP Kyoto";
+  src: url("/fonts/PPKyoto-Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "PP Kyoto";
+  src: url("/fonts/PPKyoto-LightItalic.otf") format("opentype");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "PP Kyoto";
+  src: url("/fonts/PPKyoto-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "PP Kyoto";
+  src: url("/fonts/PPKyoto-MediumItalic.otf") format("opentype");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "PP Kyoto";
+  src: url("/fonts/PPKyoto-Extrabold.otf") format("opentype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "PP Kyoto";
+  src: url("/fonts/PPKyoto-ExtraboldItalic.otf") format("opentype");
+  font-weight: 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  --paper: #f4f5f8;
+  --surface: #ffffff;
+  --ink: #16162a;
+  --ink-muted: #6b6f85;
+  --line: #e2e5ef;
+  --accent: #2e29eb;
+  --accent-soft: rgba(46, 41, 235, 0.1);
+  --accent-strong: #221dc4;
+  --food: #e07830;
+  --culture: #2e29eb;
+  --nature: #2f9e6f;
+  --cafe: #c9a227;
+  --shopping: #c45b8c;
+  --shadow-soft: 0 12px 40px rgba(22, 22, 42, 0.06);
+
+  /* one colour per Maps list */
+  --list-culture: #2e29eb;
+  --list-food: #e07830;
+  --list-desserts: #e0457b;
+  --list-bars: #7b3fa0;
+  --list-shopping: #c45b8c;
+  --list-matcha: #2f9e6f;
+  --list-books: #8b5e3c;
+  --list-ceramics: #c46a3a;
+  --list-cafe: #c9a227;
+
+  /* legacy aliases remapped for light theme */
+  --ro: var(--paper);
+  --sumi: #eef0f6;
+  --keshizumi: #c5cad8;
+  --sunezumi: var(--ink-muted);
+  --ginnezumi: #8a90a5;
+  --shironeri: var(--ink);
+  --kurenai: var(--accent);
+  --fuji: #5b57f0;
+  --kuchiba: var(--food);
+  --wakatake: var(--nature);
+  --yamabuki: var(--cafe);
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --border: var(--line);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-border: var(--border);
+  /* Single typeface everywhere */
+  --font-sans: "PP Kyoto", "Hiragino Sans", "Noto Sans JP", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-display: var(--font-sans);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  html {
+    background-color: var(--paper);
+  }
+  body {
+    background:
+      radial-gradient(900px 480px at 10% -10%, rgba(46, 41, 235, 0.08), transparent 55%),
+      radial-gradient(700px 400px at 100% 0%, rgba(46, 41, 235, 0.05), transparent 50%),
+      var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+  }
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+}
+
+.leaflet-container {
+  background: #e8ebf2 !important;
+  font-family: var(--font-sans);
+}
+.leaflet-control-zoom {
+  border: 1px solid var(--line) !important;
+  border-radius: 2px !important;
+  overflow: hidden;
+}
+.leaflet-control-zoom a {
+  background: #fff !important;
+  color: var(--ink-muted) !important;
+  border-color: var(--line) !important;
+  width: 30px !important;
+  height: 30px !important;
+  line-height: 30px !important;
+  font-size: 14px !important;
+}
+.leaflet-control-zoom a:hover {
+  background: var(--accent-soft) !important;
+  color: var(--accent) !important;
+}
+.leaflet-control-attribution {
+  background: rgba(255, 255, 255, 0.85) !important;
+  color: var(--ink-muted) !important;
+  font-size: 9px !important;
+}
+.leaflet-control-attribution a {
+  color: var(--ink-muted) !important;
+}
+.leaflet-tooltip.pixel-tooltip {
+  background: #fff !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 2px !important;
+  box-shadow: var(--shadow-soft) !important;
+  font-family: var(--font-sans) !important;
+  font-size: 11px !important;
+  padding: 3px 7px !important;
+  white-space: nowrap;
+}
+.leaflet-tooltip.pixel-tooltip::before {
+  border-top-color: var(--line) !important;
+}
+.leaflet-marker-icon {
+  overflow: visible !important;
+}
+
+.radar-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border: 2px solid var(--pulse-color, #2e29eb);
+  border-radius: 50%;
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 1;
+  animation: radar-ping 2400ms ease-out infinite;
+}
+@keyframes radar-ping {
+  0% { width: 0; height: 0; opacity: 0.6; }
+  70% { width: 60px; height: 60px; opacity: 0.3; }
+  100% { width: 80px; height: 80px; opacity: 0; }
+}
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #c5cad8; border-radius: 2px; }
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+
+.font-pixel,
+.font-display {
+  font-family: var(--font-sans);
+  font-weight: 800;
+}
+
+.home-card {
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+  animation: home-rise 560ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.home-card:nth-of-type(2) {
+  animation-delay: 80ms;
+}
+
+section.mt-4.grid > .home-card:nth-child(1) { animation-delay: 140ms; }
+section.mt-4.grid > .home-card:nth-child(2) { animation-delay: 200ms; }
+section.mt-4.grid > .home-card:nth-child(3) { animation-delay: 260ms; }
+section.mt-4.grid > .home-card:nth-child(4) { animation-delay: 320ms; }
+
+@keyframes home-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-card {
+    animation: none;
+  }
+}

@@ -1,0 +1,59 @@
+name: Sync Google Maps lists
+
+# Google Maps cannot push updates into this app.
+# This workflow re-scrapes your saved lists on a schedule (and on demand)
+# then opens a PR with the refreshed data/places.json.
+
+on:
+  schedule:
+    # Every day at 06:00 UTC
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Chrome
+        id: chrome
+        uses: browser-actions/setup-chrome@v1
+
+      - name: Sync Maps lists
+        env:
+          CHROME_PATH: ${{ steps.chrome.outputs.chrome-path }}
+        run: |
+          if [ -z "$CHROME_PATH" ]; then
+            export CHROME_PATH="$(command -v google-chrome || command -v chromium || command -v chromium-browser)"
+          fi
+          echo "Using Chrome: $CHROME_PATH"
+          pnpm sync:maps
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore: sync Google Maps saved lists"
+          title: "chore: sync Google Maps saved lists"
+          body: |
+            Automated refresh of `data/places.json` from the Google Maps lists in `data/lists.json`.
+
+            Google Maps has no webhook for saved-list changes — this job scrapes the lists and geocodes new spots.
+          branch: chore/sync-maps-lists
+          delete-branch: true

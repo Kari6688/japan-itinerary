@@ -1,0 +1,56 @@
+[
+  {
+    "id": "culture",
+    "name": "Temple/Shrine/museums/galleries",
+    "url": "https://maps.app.goo.gl/8g5q54SPs9vGbBSg7?g_st=i",
+    "category": "culture"
+  },
+  {
+    "id": "food",
+    "name": "Food - jp",
+    "url": "https://maps.app.goo.gl/MzEmtTiX5583XxVY8?g_st=i",
+    "category": "food"
+  },
+  {
+    "id": "desserts-jp",
+    "name": "Desserts - jp",
+    "url": "https://maps.app.goo.gl/cVYdzH4xpdinuDGz7",
+    "category": "food"
+  },
+  {
+    "id": "bar-jp",
+    "name": "Bar - jp",
+    "url": "https://maps.app.goo.gl/o5Z3ttRFTqNuyfkk9",
+    "category": "food"
+  },
+  {
+    "id": "shopping-jp",
+    "name": "Shopping- jp",
+    "url": "https://maps.app.goo.gl/EFw4sK53zeubdgWm7",
+    "category": "shopping"
+  },
+  {
+    "id": "matcha-jp",
+    "name": "Matcha - jp",
+    "url": "https://maps.app.goo.gl/AzPmTd7hzFhsH5eY6",
+    "category": "cafe"
+  },
+  {
+    "id": "bookstore-jp",
+    "name": "Bookstore-jp",
+    "url": "https://maps.app.goo.gl/nfxJmyo8qM19Mayv9",
+    "category": "shopping"
+  },
+  {
+    "id": "ceramics-jp",
+    "name": "Ceramics -jp",
+    "url": "https://maps.app.goo.gl/6qKTSBJf7hwHWWPd7",
+    "category": "shopping"
+  },
+  {
+    "id": "cafe-jp",
+    "name": "Cafe - jp",
+    "url": "https://maps.app.goo.gl/n9WgkjYpmgwG8EMs7",
+    "category": "cafe"
+  }
+]
