@@ -54,11 +54,7 @@ export const travellers: Traveller[] = [
     emoji: "🦊",
     accent: "#E07830",
     soft: "rgba(224, 120, 48, 0.12)",
-    top3: [
-      "First Tokyo days — Shinjuku & Ginza",
-      "Kyoto classics — Kiyomizu + Philosopher’s Path",
-      "Slow Kyoto morning before heading out",
-    ],
+    top3: ["History museum", "Kamakura", "TBD"],
   },
 ];
 
